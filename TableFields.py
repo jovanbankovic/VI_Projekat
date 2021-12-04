@@ -21,7 +21,7 @@ class Field(object):
     is_starting_position_player2: bool(False)
     is_occupied_by_player1: bool(False)
     is_occupied_by_player2: bool(False)
-    has_walls: []
+    wallList: []
 
     def __init__(self, i, j, player1_starting_position, player2_starting_position):
         self.is_starting_position_player1 = bool(calculate_if_field_is_starting_pos(i, j, player1_starting_position))
@@ -29,7 +29,18 @@ class Field(object):
         self.index = (i, j)
         self.is_occupied_by_player1 = bool(False)
         self.is_occupied_by_player2 = bool(False)
-        self.has_walls = [bool(False), bool(False), bool(False), bool(False)]
+        self.wallList = []
+
+    def set_field(self, index, is_starting_position_player1, is_starting_position_player2,
+                  is_occupied_by_player1, is_occupied_by_player2, wall_list):
+        self.index = index
+        self.is_starting_position_player1 = is_starting_position_player1
+        self.is_starting_position_player2 = is_starting_position_player2
+        self.is_occupied_by_player1 = is_occupied_by_player1
+        self.is_occupied_by_player2 = is_occupied_by_player2
+        self.wallList = wall_list
+        field = Field()
+        return field
 
 
 class TableFields(object):
