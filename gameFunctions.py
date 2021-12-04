@@ -1,2 +1,0 @@
-def isGameOver(dict):
-    return;
