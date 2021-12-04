@@ -1,22 +1,5 @@
 from _common import invalidPreGameParamsMessage, minAmountOfWalls, maxAmountOfWalls
 
-def inputAndValidatePreGameParams(value, minValue, maxValue, inputMessage):
-    value = int(input(inputMessage))
-    if(value < minValue or value > maxValue):
-        print(invalidPreGameParamsMessage)
-        inputAndValidatePreGameParams(value, minValue, maxValue, inputMessage)
-    else:
-        return value
-
-def defineStartingPostionsForPlayers(minX, maxX, minY, maxY, firstPositionMessage, secondPositionMessage, invalidPositionParams):
-    firstPosition = int(input(firstPositionMessage))
-    secondPosition = int(input(secondPositionMessage))
-    if(firstPosition < minX or firstPosition > maxX and secondPosition < minY or secondPosition > maxY):
-        print(invalidPositionParams)
-        defineStartingPostionsForPlayers(minX, maxX, minY, maxY, firstPositionMessage, secondPositionMessage, invalidPositionParams)
-    else:
-        return (firstPosition, secondPosition)
-
 def printStartingPositions(i, j, player1, player2, x):
     myList = (i, j)
     if myList in player1:

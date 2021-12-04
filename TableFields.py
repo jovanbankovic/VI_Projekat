@@ -1,18 +1,36 @@
-from _common import matrixDimensionX, matrixDimensionY, minMatrixDimensionY, minMatrixDimensionX, maxMatrixDimensionY
-from _common import maxMatrixDimensionX, minAmountOfWalls, maxAmountOfWalls, amountOfWalls
-from _common import player1Position1MessageX, player1Position2MessageX, player1Position1MessageY
-from _common import player1Position2MessageY, player2Position1MessageY, player2Position1MessageX
-from _common import player2Position2MessageX, player2Position2MessageY, invalidPositionMessage
-from interface import inputAndValidatePreGameParams, defineStartingPostionsForPlayers
-from dict import dict
+from _common import matrixDimensionX, matrixDimensionY, minMatrixDimensionY, minMatrixDimensionX, maxMatrixDimensionY, \
+    maxMatrixDimensionX, minAmountOfWalls, maxAmountOfWalls, amountOfWalls, player1Position1MessageX, \
+    player1Position2MessageX, player1Position1MessageY, player1Position2MessageY, player2Position1MessageY, \
+    player2Position1MessageX, player2Position2MessageX, player2Position2MessageY, invalidPositionMessage, \
+    invalidPreGameParamsMessage
+
+
+def input_and_validate_pre_game_params(value, min_value, max_value, input_message):
+    value = int(input(input_message))
+    if value < min_value or value > max_value:
+        print(invalidPreGameParamsMessage)
+        input_and_validate_pre_game_params(value, min_value, max_value, input_message)
+    else:
+        return value
+
+
+def define_starting_positions_for_players(min_x, max_x, min_y, max_y, first_position_message,
+                                          second_position_message, invalid_position_params):
+    first_position = int(input(first_position_message))
+    second_position = int(input(second_position_message))
+    if first_position < min_x or first_position > max_x and second_position < min_y or second_position > max_y:
+        print(invalid_position_params)
+        define_starting_positions_for_players(min_x, max_x, min_y, max_y, first_position_message,
+                                              second_position_message, invalid_position_params)
+    else:
+        return first_position, second_position
 
 
 def calculate_if_field_is_starting_pos(i, j, position):
-    for p in position:
-        if (i, j) == p:
-            return 1
-        else:
-            return 0
+    if position[0] == (i, j) or position[1] == (i, j):
+        return 1
+    else:
+        return 0
 
 
 class Field(object):
@@ -46,18 +64,34 @@ class Field(object):
 class TableFields(object):
     table_fields = []
     x = y = k = None
+    gameStatuses = {
+        "player1Position": None,
+        "player2Position": None,
+        "player1RemainingBlueWallsAmount": None,
+        "player1RemainingGreenWallsAmount": None,
+        "player2RemainingBlueWallsAmount": None,
+        "player2RemainingGreenWallsAmount": None,
+        "player1StartingPosition": None,
+        "player2StartingPosition": None
+    }
 
     def __init__(self):
         self.table_fields = self.table_fields
         self.x = self.x
         self.y = self.y
         self.k = self.k
+        self.gameStatuses = self.gameStatuses
 
-    def create_game_table(self, table_fields, x, y, k):
+    def __str__(self):
+        return str(self.__class__) + '\n' + '\n'.join(
+            ('{} = {}'.format(item, self.__dict__[item]) for item in self.__dict__))
+
+    def create_game_table(self, table_fields, x, y, k, game_statuses):
         self.table_fields = table_fields
         self.x = x
         self.y = y
         self.k = k
+        self.gameStatuses = game_statuses
         table_fields = TableFields()
         return table_fields
 
@@ -79,27 +113,31 @@ class TableFields(object):
     def init_game_table(self):
         matrix = []
         x = y = k = None
+        statuses = {}
 
-        x = inputAndValidatePreGameParams(x, minMatrixDimensionX, maxMatrixDimensionX, matrixDimensionX)
-        y = inputAndValidatePreGameParams(y, minMatrixDimensionY, maxMatrixDimensionY, matrixDimensionY)
-        k = inputAndValidatePreGameParams(k, minAmountOfWalls, maxAmountOfWalls, amountOfWalls)
+        x = input_and_validate_pre_game_params(x, minMatrixDimensionX, maxMatrixDimensionX, matrixDimensionX)
+        y = input_and_validate_pre_game_params(y, minMatrixDimensionY, maxMatrixDimensionY, matrixDimensionY)
+        k = input_and_validate_pre_game_params(k, minAmountOfWalls, maxAmountOfWalls, amountOfWalls)
 
-        dict['player1Position'] = dict['player1StartingPosition'] = [
-            defineStartingPostionsForPlayers(0, x, 0, y, player1Position1MessageX, player1Position1MessageY,
-                                             invalidPositionMessage),
-            defineStartingPostionsForPlayers(0, x, 0, y, player1Position2MessageX, player1Position2MessageY,
-                                             invalidPositionMessage)]
-        dict['player2Position'] = dict['player2StartingPosition'] = [
-            defineStartingPostionsForPlayers(0, x, 0, y, player2Position1MessageX, player2Position1MessageY,
-                                             invalidPositionMessage),
-            defineStartingPostionsForPlayers(0, x, 0, y, player2Position2MessageX, player2Position2MessageY,
-                                             invalidPositionMessage)]
+        statuses['player1Position'] = \
+            statuses['player1StartingPosition'] = \
+            [define_starting_positions_for_players(0, x, 0, y, player1Position1MessageX, player1Position1MessageY,
+                                                   invalidPositionMessage),
+             define_starting_positions_for_players(0, x, 0, y, player1Position2MessageX, player1Position2MessageY,
+                                                   invalidPositionMessage)]
+        statuses['player2Position'] = \
+            statuses['player2StartingPosition'] = \
+            [define_starting_positions_for_players(0, x, 0, y, player2Position1MessageX, player2Position1MessageY,
+                                                   invalidPositionMessage),
+             define_starting_positions_for_players(0, x, 0, y, player2Position2MessageX, player2Position2MessageY,
+                                                   invalidPositionMessage)]
 
-        dict['player1RemainingBlueWallsAmount'] = dict['player1RemainingGreenWallsAmount'] = \
-            dict['player2RemainingBlueWallsAmount'] = dict['player2RemainingGreenWallsAmount'] = k
+        statuses['player1RemainingBlueWallsAmount'] = statuses['player1RemainingGreenWallsAmount'] = \
+            statuses['player2RemainingBlueWallsAmount'] = statuses['player2RemainingGreenWallsAmount'] = k
 
         for i in range(x):
             matrix.append(
-                [Field(i, j, dict['player1StartingPosition'], dict['player2StartingPosition']) for j in range(y)])
+                [Field(i, j, statuses['player1StartingPosition'], statuses['player2StartingPosition']) for j in
+                 range(y)])
 
-        return self.create_game_table(matrix, x, y, k)
+        return self.create_game_table(matrix, x, y, k, statuses)
