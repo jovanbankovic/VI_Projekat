@@ -63,3 +63,5 @@ def initInterface(x, y, k, player1, player2):
     print("   ", end="")
     for j in range(x):
         print("%4s" % hex(j+1).split('x')[-1].upper(), end="")
+
+

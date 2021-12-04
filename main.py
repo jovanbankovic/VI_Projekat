@@ -4,12 +4,24 @@ from _common import player1Position1MessageX, player1Position2MessageX, player1P
 from _common import player1Position2MessageY, player2Position1MessageY, player2Position1MessageX
 from _common import player2Position2MessageX, player2Position2MessageY, invalidPositionMessage
 from interface import initInterface, inputAndValidatePreGameParams, defineStartingPostionsForPlayers
-from dict import dict
-from gameFunctions import isGameOver
-
+from wall import Wall
+from wall import WallList
 if __name__ == '__main__':
     x = y = k = None
 
+    # --wall test
+    player1wall_list = WallList(9)
+
+    player1wall = Wall()
+    player1wall.init_wall()
+    player1wall_list.add_to_list(player1wall)
+
+    player1wall = Wall()
+    player1wall.init_wall()
+    player1wall_list.add_to_list(player1wall)
+
+    print(player1wall_list, sep="\n")
+    # --wall
     x = inputAndValidatePreGameParams(x, minMatrixDimensionX, maxMatrixDimensionX, matrixDimensionX)
     y = inputAndValidatePreGameParams(y, minMatrixDimensionY, maxMatrixDimensionY, matrixDimensionY)
     k = inputAndValidatePreGameParams(k, minAmountOfWalls, maxAmountOfWalls, amountOfWalls)
@@ -27,7 +39,7 @@ if __name__ == '__main__':
 
     dict['player1RemainingWallsAmount'] = dict['player2RemainingWallsAmount'] = k
 
-    isGameOver(dict)
+
 
     initInterface(int(x), int(y), int(k), dict['player1Position'], dict['player2Position'])
 
