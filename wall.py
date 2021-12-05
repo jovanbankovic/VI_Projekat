@@ -18,13 +18,14 @@ class Wall(object):
         wall = Wall()
         return wall
 
-    def init_wall(self):
+    def init_wall(self, matrix):
         x = input("Write position X: ")
         y = input("Write position Y: ")
         pos = (int(x), int(y))
         inp = input("Choose blue or green: ")
         if inp == "blue":
-            # provera da li ima dovoljno plavih
+            # provera
+            
             return self.make_wall(inp, pos)
             # whatevercodeyouwant_1()
         elif inp == "green":

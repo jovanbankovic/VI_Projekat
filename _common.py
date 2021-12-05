@@ -22,3 +22,4 @@ player2Position1MessageY = 'Unesite Y koordinatu na matrici gde ce se drugom igr
 player2Position2MessageX = 'Unesite X koordinatu na matrici gde ce se drugom igracu nalaziti druga figura: '
 player2Position2MessageY = 'Unesite Y koordinatu na matrici gde ce se drugom igracu nalaziti druga figura: '
 invalidPositionMessage = 'Unete pozicije nisu validne. Pokusajte ponovo.'
+
