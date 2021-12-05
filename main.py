@@ -1,5 +1,5 @@
 from TableFields import TableFields
-from wall import Wall
+from Wall import Wall
 
 if __name__ == '__main__':
     obj = TableFields()

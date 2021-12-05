@@ -3,6 +3,7 @@ from _common import matrixDimensionX, matrixDimensionY, minMatrixDimensionY, min
     player1Position2MessageX, player1Position1MessageY, player1Position2MessageY, player2Position1MessageY, \
     player2Position1MessageX, player2Position2MessageX, player2Position2MessageY, invalidPositionMessage, \
     invalidPreGameParamsMessage
+from Player import Player
 
 
 def input_and_validate_pre_game_params(value, min_value, max_value, input_message):
@@ -26,36 +27,16 @@ def define_starting_positions_for_players(min_x, max_x, min_y, max_y, first_posi
         return first_position, second_position
 
 
-def calculate_if_field_is_starting_pos(i, j, position):
-    if position[0] == (i, j) or position[1] == (i, j):
-        return 1
-    else:
-        return 0
-
-
 class Field(object):
     index: ()
-    is_starting_position_player1: bool(False)
-    is_starting_position_player2: bool(False)
-    is_occupied_by_player1: bool(False)
-    is_occupied_by_player2: bool(False)
     wallList: []
 
-    def __init__(self, i, j, player1_starting_position, player2_starting_position):
-        self.is_starting_position_player1 = bool(calculate_if_field_is_starting_pos(i, j, player1_starting_position))
-        self.is_starting_position_player2 = bool(calculate_if_field_is_starting_pos(i, j, player2_starting_position))
+    def __init__(self, i, j):
         self.index = (i, j)
-        self.is_occupied_by_player1 = bool(False)
-        self.is_occupied_by_player2 = bool(False)
         self.wallList = []
 
-    def set_field(self, index, is_starting_position_player1, is_starting_position_player2,
-                  is_occupied_by_player1, is_occupied_by_player2, wall_list):
+    def set_field(self, index, wall_list):
         self.index = index
-        self.is_starting_position_player1 = is_starting_position_player1
-        self.is_starting_position_player2 = is_starting_position_player2
-        self.is_occupied_by_player1 = is_occupied_by_player1
-        self.is_occupied_by_player2 = is_occupied_by_player2
         self.wallList = wall_list
         field = Field()
         return field
@@ -64,80 +45,118 @@ class Field(object):
 class TableFields(object):
     table_fields = []
     x = y = k = None
-    gameStatuses = {
-        "player1Position": None,
-        "player2Position": None,
-        "player1RemainingBlueWallsAmount": None,
-        "player1RemainingGreenWallsAmount": None,
-        "player2RemainingBlueWallsAmount": None,
-        "player2RemainingGreenWallsAmount": None,
-        "player1StartingPosition": None,
-        "player2StartingPosition": None
-    }
+    player1 = Player()
+    player2 = Player()
 
     def __init__(self):
         self.table_fields = self.table_fields
         self.x = self.x
         self.y = self.y
         self.k = self.k
-        self.gameStatuses = self.gameStatuses
+        self.player1 = self.player1
+        self.player2 = self.player2
 
     def __str__(self):
         return str(self.__class__) + '\n' + '\n'.join(
             ('{} = {}'.format(item, self.__dict__[item]) for item in self.__dict__))
 
-    def create_game_table(self, table_fields, x, y, k, game_statuses):
+    def create_game_table(self, table_fields, x, y, k, player1, player2):
         self.table_fields = table_fields
         self.x = x
         self.y = y
         self.k = k
-        self.gameStatuses = game_statuses
+        self.player1 = player1
+        self.player2 = player2
         table_fields = TableFields()
         return table_fields
 
     def print_game_table(self):
-        for i in range(self.x):
-            for j in range(self.y):
-                if self.table_fields[i][j].is_occupied_by_player1:
-                    print('X', end=" | ")
-                if self.table_fields[i][j].is_occupied_by_player2:
-                    print('O', end=" | ")
-                if self.table_fields[i][j].is_starting_position_player1:
-                    print('P1', end=" | ")
-                if self.table_fields[i][j].is_starting_position_player2:
-                    print('P2', end=" | ")
+        print("   ", end="")
+        for j in range(self.x):
+            print("%4s" % hex(j + 1).split('x')[-1].upper(), end="")
+        print('    ')
+        print("   ", end="")
+        for j in range(self.x):
+            print("%4s" % "═", end="")
+
+        for i in range(self.y):
+            print("\n%4s╟" % hex(i + 1).split('x')[-1].upper(), end="")
+            for j in range(self.x):
+
+                # <!-- DODATI STAMPANJE ZIDOVA !
+
+                if self.player1.figurePositions[0] == (i, j) or self.player1.figurePositions[1] == (i, j):
+                    if j == self.x - 1:
+                        print("%1s" % " X", end="")
+                    else:
+                        print("%1s" % " X", end=" │")
+
+                elif self.player1.startingPosition[0] == (i, j) or self.player1.startingPosition[1] == (i, j):
+                    if j == self.x - 1:
+                        print("%1s" % " S", end="")
+                    else:
+                        print("%1s" % " S", end=" │")
+
+                elif self.player2.figurePositions[0] == (i, j) or self.player2.figurePositions[1] == (i, j):
+                    if j == self.x - 1:
+                        print("%1s" % " O", end="")
+                    else:
+                        print("%1s" % " O", end=" │")
+
+                elif self.player2.startingPosition[0] == (i, j) or self.player2.startingPosition[1] == (i, j):
+                    if j == self.x - 1:
+                        print("%1s" % " S", end="")
+                    else:
+                        print("%1s" % " S", end=" │")
+
                 else:
-                    print(' ', end=" | ")
+                    if j == self.x - 1:
+                        print("%1s" % "  ", end="")
+                    else:
+                        print("%1s" % " ", end="  │")
+
+            print("%2s" % "╢", end="%s" % hex(i + 1).split('x')[-1].upper())
             print()
+            print("   ", end="")
+            if (i < self.y - 1):
+                for j in range(self.x):
+                    print("%4s" % "─", end='')
+
+        for j in range(self.x):
+            print("%4s" % "═", end="")
+
+        print()
+        print("   ", end="")
+        for j in range(self.x):
+            print("%4s" % hex(j + 1).split('x')[-1].upper(), end="")
 
     def init_game_table(self):
         matrix = []
         x = y = k = None
-        statuses = {}
+        player1 = Player()
+        player2 = Player()
 
         x = input_and_validate_pre_game_params(x, minMatrixDimensionX, maxMatrixDimensionX, matrixDimensionX)
         y = input_and_validate_pre_game_params(y, minMatrixDimensionY, maxMatrixDimensionY, matrixDimensionY)
         k = input_and_validate_pre_game_params(k, minAmountOfWalls, maxAmountOfWalls, amountOfWalls)
 
-        statuses['player1Position'] = \
-            statuses['player1StartingPosition'] = \
+        player1.figurePositions = \
+            player1.startingPosition = \
             [define_starting_positions_for_players(0, x, 0, y, player1Position1MessageX, player1Position1MessageY,
                                                    invalidPositionMessage),
              define_starting_positions_for_players(0, x, 0, y, player1Position2MessageX, player1Position2MessageY,
                                                    invalidPositionMessage)]
-        statuses['player2Position'] = \
-            statuses['player2StartingPosition'] = \
+        player2.figurePositions = \
+            player2.startingPosition = \
             [define_starting_positions_for_players(0, x, 0, y, player2Position1MessageX, player2Position1MessageY,
                                                    invalidPositionMessage),
              define_starting_positions_for_players(0, x, 0, y, player2Position2MessageX, player2Position2MessageY,
                                                    invalidPositionMessage)]
 
-        statuses['player1RemainingBlueWallsAmount'] = statuses['player1RemainingGreenWallsAmount'] = \
-            statuses['player2RemainingBlueWallsAmount'] = statuses['player2RemainingGreenWallsAmount'] = k
+        player1.remainingBlueWalls = player1.remainingBlueWalls = \
+            player2.remainingBlueWalls = player2.remainingGreenWalls = k
 
         for i in range(x):
-            matrix.append(
-                [Field(i, j, statuses['player1StartingPosition'], statuses['player2StartingPosition']) for j in
-                 range(y)])
+            matrix.append([Field(i, j) for j in range(y)])
 
-        return self.create_game_table(matrix, x, y, k, statuses)
+        return self.create_game_table(matrix, x, y, k, player1, player2)
