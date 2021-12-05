@@ -24,10 +24,15 @@ class Wall(object):
         pos = (int(x), int(y))
         inp = input("Choose blue or green: ")
         if inp == "blue":
-            # provera
-            
-            return self.make_wall(inp, pos)
-            # whatevercodeyouwant_1()
+            wall = self.make_wall(inp, pos)
+            current_wall_postion = matrix[x][y]
+            next_wall_postion = matrix[x][y+1]
+            if wall in filter(lambda w: w[0] == "blue", current_wall_postion):
+                return -1
+            elif not filter(lambda w: w[0] == "blue", next_wall_postion) and filter(lambda w: w[0] == "green", current_wall_postion):
+                return wall
+            else:
+                return -1
         elif inp == "green":
             # provera da li ima dovoljno zelenih
             return self.make_wall(inp, pos)
