@@ -70,6 +70,14 @@ class TableFields(object):
         table_fields = TableFields()
         return table_fields
 
+    def is_game_over(self):
+        for i in range(len(self.player1.figurePositions)):
+            for j in range(len(self.player2.startingPosition)):
+                if self.player1.figurePositions[i] == self.player2.startingPosition[j]:
+                    return 1
+                elif self.player2.figurePositions[i] == self.player1.startingPosition[j]:
+                    return 2
+
     def print_game_table(self):
         print("   ", end="")
         for j in range(self.x):
@@ -84,6 +92,7 @@ class TableFields(object):
             for j in range(self.x):
 
                 # <!-- DODATI STAMPANJE ZIDOVA !
+                # <!-- PROVERA DAL JE IGRAC NA PROTIVNICKOM POLJU DA SE ON ODSTAMPA
 
                 if self.player1.figurePositions[0] == (i, j) or self.player1.figurePositions[1] == (i, j):
                     if j == self.x - 1:
