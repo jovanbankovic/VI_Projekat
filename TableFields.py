@@ -24,7 +24,7 @@ def define_starting_positions_for_players(min_x, max_x, min_y, max_y, first_posi
         define_starting_positions_for_players(min_x, max_x, min_y, max_y, first_position_message,
                                               second_position_message, invalid_position_params)
     else:
-        return first_position, second_position
+        return first_position - 1, second_position - 1
 
 
 class Field(object):
@@ -70,6 +70,9 @@ class TableFields(object):
         table_fields = TableFields()
         return table_fields
 
+    def update_field(self, x, y, wall):
+        self.table_fields[x][y].wallList.append(wall)
+
     def is_game_over(self):
         for i in range(len(self.player1.figurePositions)):
             for j in range(len(self.player2.startingPosition)):
@@ -91,45 +94,70 @@ class TableFields(object):
             print("\n%4s╟" % hex(i + 1).split('x')[-1].upper(), end="")
             for j in range(self.x):
 
-                # <!-- DODATI STAMPANJE ZIDOVA !
                 # <!-- PROVERA DAL JE IGRAC NA PROTIVNICKOM POLJU DA SE ON ODSTAMPA
 
                 if self.player1.figurePositions[0] == (i, j) or self.player1.figurePositions[1] == (i, j):
                     if j == self.x - 1:
-                        print("%1s" % " X", end="")
+                        print("%1s" % " ✘", end="")
                     else:
-                        print("%1s" % " X", end=" │")
-
+                        if any(x for x in self.table_fields[j][i].wallList if x.wall_type == "green"):
+                            if i + 1 < self.y and len(self.table_fields[j][i - 1].wallList) == 0:
+                                self.update_field(j, i + 1, self.table_fields[j][i].wallList[0])
+                            print("%1s" % " ", end="  ║")
+                        else:
+                            print("%1s" % " ✘", end=" │")
                 elif self.player1.startingPosition[0] == (i, j) or self.player1.startingPosition[1] == (i, j):
                     if j == self.x - 1:
-                        print("%1s" % " S", end="")
+                        print("%1s" % " ◆", end="")
                     else:
-                        print("%1s" % " S", end=" │")
-
+                        if any(x for x in self.table_fields[j][i].wallList if x.wall_type == "green"):
+                            if i + 1 < self.y and len(self.table_fields[j][i - 1].wallList) == 0:
+                                self.update_field(j, i + 1, self.table_fields[j][i].wallList[0])
+                            print("%1s" % " ", end="  ║")
+                        else:
+                            print("%1s" % " ◆", end=" │")
                 elif self.player2.figurePositions[0] == (i, j) or self.player2.figurePositions[1] == (i, j):
                     if j == self.x - 1:
-                        print("%1s" % " O", end="")
+                        print("%1s" % " ⚫", end="")
                     else:
-                        print("%1s" % " O", end=" │")
-
+                        if any(x for x in self.table_fields[j][i].wallList if x.wall_type == "green"):
+                            if i + 1 < self.y and len(self.table_fields[j][i - 1].wallList) == 0:
+                                self.update_field(j, i + 1, self.table_fields[j][i].wallList[0])
+                            print("%1s" % " ", end="  ║")
+                        else:
+                            print("%1s" % " ⚫", end=" │")
                 elif self.player2.startingPosition[0] == (i, j) or self.player2.startingPosition[1] == (i, j):
                     if j == self.x - 1:
-                        print("%1s" % " S", end="")
+                        print("%1s" % " ◇", end="")
                     else:
-                        print("%1s" % " S", end=" │")
-
+                        if any(x for x in self.table_fields[j][i].wallList if x.wall_type == "green"):
+                            if i + 1 < self.y and len(self.table_fields[j][i - 1].wallList) == 0:
+                                self.update_field(j, i + 1, self.table_fields[j][i].wallList[0])
+                            print("%1s" % " ", end="  ║")
+                        else:
+                            print("%1s" % " ◇", end=" │")
                 else:
                     if j == self.x - 1:
                         print("%1s" % "  ", end="")
                     else:
-                        print("%1s" % " ", end="  │")
+                        if any(x for x in self.table_fields[j][i].wallList if x.wall_type == "green"):
+                            if i + 1 < self.y and len(self.table_fields[j][i - 1].wallList) == 0:
+                                self.update_field(j, i + 1, self.table_fields[j][i].wallList[0])
+                            print("%1s" % " ", end="  ║")
+                        else:
+                            print("%1s" % " ", end="  │")
 
             print("%2s" % "╢", end="%s" % hex(i + 1).split('x')[-1].upper())
             print()
             print("   ", end="")
-            if (i < self.y - 1):
+            if i < self.y - 1:
                 for j in range(self.x):
-                    print("%4s" % "─", end='')
+                    if any(x for x in self.table_fields[j][i].wallList if x.wall_type == "blue"):
+                        if j + 1 < self.x and len(self.table_fields[j-1][i].wallList) == 0:
+                            self.update_field(j + 1, i, self.table_fields[j][i].wallList[0])
+                        print("%4s" % "═", end='')
+                    else:
+                        print("%4s" % "─", end='')
 
         for j in range(self.x):
             print("%4s" % "═", end="")

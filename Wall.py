@@ -17,16 +17,16 @@ class Wall(object):
         self.position = position
         return self
 
-    def init_wall(self, matrix):
-        x = int(input("Write position X: "))
-        y = int(input("Write position Y: "))
+    def init_wall(self, obj):
+        x = int(input("Write position X: ")) - 1
+        y = int(input("Write position Y: ")) - 1
         pos = (x, y)
         inp = input("Choose blue or green: ")
         if inp == "blue":
             wall = self.make_wall(inp, pos)
-            current_field = any(x for x in matrix[x][y].wallList if x.wall_type == "blue")
-            next_field = any(x for x in matrix[x][y+1].wallList if x.wall_type == "blue")
-            has_green_wall = any(x for x in matrix[x-1][y].wallList if x.wall_type == "green")
+            current_field = any(x for x in obj.table_fields[x][y].wallList if x.wall_type == "blue")
+            next_field = any(x for x in obj.table_fields[x][y+1].wallList if x.wall_type == "blue")
+            has_green_wall = any(x for x in obj.table_fields[x-1][y].wallList if x.wall_type == "green")
             if current_field:
                 print("Ima zid ovde!")
                 return -1
@@ -37,14 +37,12 @@ class Wall(object):
                 print("Ima zid izmedju!");
                 return -1
             else:
-                matrix[x][y].wallList.append(wall)
-                matrix[x][y+1].wallList.append(wall)
-                return matrix
+                obj.update_field(x, y, wall)
         elif inp == "green":
             wall = self.make_wall(inp, pos)
-            current_field = any(x for x in matrix[x][y].wallList if x.wall_type == "green")
-            next_field = any(x for x in matrix[x+1][y].wallList if x.wall_type == "green")
-            has_blue_wall = any(x for x in matrix[x+1][y].wallList if x.wall_type == "blue")
+            current_field = any(x for x in obj.table_fields[x][y].wallList if x.wall_type == "green")
+            next_field = any(x for x in obj.table_fields[x+1][y].wallList if x.wall_type == "green")
+            has_blue_wall = any(x for x in obj.table_fields[x+1][y].wallList if x.wall_type == "blue")
             if current_field:
                 print("Ima zid ovde!")
                 return -1
@@ -55,9 +53,7 @@ class Wall(object):
                 print("Ima zid izmedju!");
                 return -1
             else:
-                matrix[x][y].wallList.append(wall)
-                matrix[x+1][y].wallList.append(wall)
-                return matrix
+                obj.update_field(x, y, wall)
         else:
             print("You must choose between blue or green")
             return self.init_wall()
