@@ -24,53 +24,34 @@ class Wall(object):
         inp = input("Choose blue or green: ")
         if inp == "blue":
             wall = self.make_wall(inp, pos)
-            current_field = any(x for x in obj.table_fields[x][y].wallList if x.wall_type == "blue")
-            next_field = any(x for x in obj.table_fields[x][y+1].wallList if x.wall_type == "blue")
-            has_green_wall = any(x for x in obj.table_fields[x-1][y].wallList if x.wall_type == "green")
-            if current_field:
+            if obj.table_fields[x][y].wallDown["type"] == "blue":
                 print("Ima zid ovde!")
                 return -1
-            elif next_field:
+            elif obj.table_fields[x][y + 1].wallDown["type"] == "blue":
                 print("Ima zid pored!")
                 return -1
-            elif has_green_wall:
-                print("Ima zid izmedju!");
+            elif obj.table_fields[x][y].wallRight["type"] == "green":
+                print("Ima zeleni zid izmedju!");
                 return -1
             else:
-                obj.update_field(x, y, wall)
+                obj.update_field_for_blue(x, y, y+1, wall)
+
         elif inp == "green":
             wall = self.make_wall(inp, pos)
-            current_field = any(x for x in obj.table_fields[x][y].wallList if x.wall_type == "green")
-            next_field = any(x for x in obj.table_fields[x+1][y].wallList if x.wall_type == "green")
-            has_blue_wall = any(x for x in obj.table_fields[x+1][y].wallList if x.wall_type == "blue")
-            if current_field:
+            has_blue_wall = obj.table_fields[x+1][y].wallDown["type"] == "blue"
+            if obj.table_fields[x][y].wallRight["type"] == "green":
                 print("Ima zid ovde!")
                 return -1
-            elif next_field:
-                print("Ima zid pored!")
+            elif obj.table_fields[x+1][y].wallRight["type"] == "green":
+                print("Ima zid ispod!")
                 return -1
-            elif has_blue_wall:
-                print("Ima zid izmedju!");
+            elif obj.table_fields[x][y].wallDown["type"] == "blue":
+                print("Ima plavi zid izmedju!!!!");
                 return -1
             else:
-                obj.update_field(x, y, wall)
+                obj.update_field_for_green(x, y, x+1, wall)
         else:
             print("You must choose between blue or green")
             return self.init_wall()
 
 
-class WallList(object):
-    wall_list = []
-    number_of_walls = 0
-
-    def __init__(self, number_of_walls):
-        self.number_of_walls = number_of_walls
-
-    def __str__(self):
-        return str(self.__class__) + '\n' + '\n'.join(
-            ('{} = {}'.format(item, self.__dict__[item]) for item in self.__dict__))
-
-    def add_to_list(self, wall):
-        if len(self.wall_list) <= self.number_of_walls:
-            copy_wall_list = self.wall_list
-            copy_wall_list.append(wall)

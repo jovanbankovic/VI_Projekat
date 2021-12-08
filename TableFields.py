@@ -29,17 +29,34 @@ def define_starting_positions_for_players(min_x, max_x, min_y, max_y, first_posi
 
 class Field(object):
     index: ()
-    wallList: []
+    wallUp: {}
+    wallDown: {}
+    wallLeft: {}
+    wallRight: {}
+
 
     def __init__(self, i, j):
         self.index = (i, j)
-        self.wallList = []
+        self.wallUp = {
+            "type": ''
+        }
+        self.wallDown = {
+            "type": ''
+        }
+        self.wallLeft = {
+            "type": ''
+        }
+        self.wallRight = {
+            "type": ''
+        }
 
-    def set_field(self, index, wall_list):
-        self.index = index
-        self.wallList = wall_list
-        field = Field()
-        return field
+
+    def set_field(self, wallUp, wallDown, wallLeft, wallRight):
+        self.wallUp = wallUp
+        self.wallDown = wallDown
+        self.wallLeft = wallLeft
+        self.wallRight = wallRight
+        return self
 
 
 class TableFields(object):
@@ -70,8 +87,29 @@ class TableFields(object):
         table_fields = TableFields()
         return table_fields
 
-    def update_field(self, x, y, wall):
-        self.table_fields[x][y].wallList.append(wall)
+    def update_field_for_blue(self, x, y, k, wall):
+
+        # for current down
+        self.table_fields[x][y].wallDown["type"] = wall.wall_type
+        self.table_fields[x][k].wallDown["type"] = wall.wall_type
+        # for fields below we need to put up field
+        self.table_fields[x+1][y].wallUp["type"] = wall.wall_type
+        self.table_fields[x+1][k].wallUp["type"] = wall.wall_type
+
+        test = self.table_fields
+
+
+    def update_field_for_green(self, x, y, k, wall):
+        # for current down
+        self.table_fields[x][y].wallRight["type"] = wall.wall_type
+        self.table_fields[k][y].wallRight["type"] = wall.wall_type
+        # for fields below we need to put up field
+        self.table_fields[x][y+1].wallLeft["type"] = wall.wall_type
+        self.table_fields[k][k+1].wallLeft["type"] = wall.wall_type
+
+        test = self.table_fields
+
+        print('Baba')
 
     def is_game_over(self):
         for i in range(len(self.player1.figurePositions)):
@@ -83,66 +121,56 @@ class TableFields(object):
 
     def print_game_table(self):
         print("   ", end="")
-        for j in range(self.x):
+        for j in range(self.y):
             print("%4s" % hex(j + 1).split('x')[-1].upper(), end="")
         print('    ')
         print("   ", end="")
-        for j in range(self.x):
+        for j in range(self.y):
             print("%4s" % "═", end="")
 
-        for i in range(self.y):
+        for i in range(self.x):
             print("\n%4s╟" % hex(i + 1).split('x')[-1].upper(), end="")
-            for j in range(self.x):
+            for j in range(self.y):
 
                 # <!-- PROVERA DAL JE IGRAC NA PROTIVNICKOM POLJU DA SE ON ODSTAMPA
 
                 if self.player1.figurePositions[0] == (i, j) or self.player1.figurePositions[1] == (i, j):
-                    if j == self.x - 1:
+                    if j == self.y - 1:
                         print("%1s" % " ✘", end="")
                     else:
-                        if any(x for x in self.table_fields[j][i].wallList if x.wall_type == "green"):
-                            if i + 1 < self.y and len(self.table_fields[j][i - 1].wallList) == 0:
-                                self.update_field(j, i + 1, self.table_fields[j][i].wallList[0])
-                            print("%1s" % " ", end="  ║")
+                        if self.table_fields[i][j].wallRight["type"] == "green":
+                            print("%1s" % " ✘", end="  ││")
                         else:
                             print("%1s" % " ✘", end=" │")
                 elif self.player1.startingPosition[0] == (i, j) or self.player1.startingPosition[1] == (i, j):
-                    if j == self.x - 1:
+                    if j == self.y - 1:
                         print("%1s" % " ◆", end="")
                     else:
-                        if any(x for x in self.table_fields[j][i].wallList if x.wall_type == "green"):
-                            if i + 1 < self.y and len(self.table_fields[j][i - 1].wallList) == 0:
-                                self.update_field(j, i + 1, self.table_fields[j][i].wallList[0])
-                            print("%1s" % " ", end="  ║")
+                        if self.table_fields[i][j].wallRight["type"] == "green":
+                            print("%1s" % " ◆", end="  ││")
                         else:
                             print("%1s" % " ◆", end=" │")
                 elif self.player2.figurePositions[0] == (i, j) or self.player2.figurePositions[1] == (i, j):
-                    if j == self.x - 1:
+                    if j == self.y - 1:
                         print("%1s" % " ⚫", end="")
                     else:
-                        if any(x for x in self.table_fields[j][i].wallList if x.wall_type == "green"):
-                            if i + 1 < self.y and len(self.table_fields[j][i - 1].wallList) == 0:
-                                self.update_field(j, i + 1, self.table_fields[j][i].wallList[0])
-                            print("%1s" % " ", end="  ║")
+                        if self.table_fields[i][j].wallRight["type"] == "green":
+                            print("%1s" % " ⚫", end="  ││")
                         else:
                             print("%1s" % " ⚫", end=" │")
                 elif self.player2.startingPosition[0] == (i, j) or self.player2.startingPosition[1] == (i, j):
-                    if j == self.x - 1:
+                    if j == self.y - 1:
                         print("%1s" % " ◇", end="")
                     else:
-                        if any(x for x in self.table_fields[j][i].wallList if x.wall_type == "green"):
-                            if i + 1 < self.y and len(self.table_fields[j][i - 1].wallList) == 0:
-                                self.update_field(j, i + 1, self.table_fields[j][i].wallList[0])
-                            print("%1s" % " ", end="  ║")
+                        if self.table_fields[i][j].wallRight["type"] == "green":
+                            print("%1s" % " ◇", end="  ││")
                         else:
                             print("%1s" % " ◇", end=" │")
                 else:
-                    if j == self.x - 1:
+                    if j == self.y - 1:
                         print("%1s" % "  ", end="")
                     else:
-                        if any(x for x in self.table_fields[j][i].wallList if x.wall_type == "green"):
-                            if i + 1 < self.y and len(self.table_fields[j][i - 1].wallList) == 0:
-                                self.update_field(j, i + 1, self.table_fields[j][i].wallList[0])
+                        if self.table_fields[i][j].wallRight["type"] == "green":
                             print("%1s" % " ", end="  ║")
                         else:
                             print("%1s" % " ", end="  │")
@@ -150,23 +178,33 @@ class TableFields(object):
             print("%2s" % "╢", end="%s" % hex(i + 1).split('x')[-1].upper())
             print()
             print("   ", end="")
-            if i < self.y - 1:
-                for j in range(self.x):
-                    if any(x for x in self.table_fields[j][i].wallList if x.wall_type == "blue"):
-                        if j + 1 < self.x and len(self.table_fields[j-1][i].wallList) == 0:
-                            self.update_field(j + 1, i, self.table_fields[j][i].wallList[0])
+            for j in range(self.y):
+                if i < self.x - 1:
+                    if self.table_fields[i][j].wallDown["type"] == "blue":
                         print("%4s" % "═", end='')
                     else:
                         print("%4s" % "─", end='')
 
-        for j in range(self.x):
+        for j in range(self.y):
             print("%4s" % "═", end="")
 
         print()
         print("   ", end="")
-        for j in range(self.x):
+        for j in range(self.y):
             print("%4s" % hex(j + 1).split('x')[-1].upper(), end="")
 
+    def init_game_test(self):
+        matrix = []
+        player1 = Player()
+        player2 = Player()
+        player1.create_player([(3, 4), (3, 9)], 9, 9, [(3, 4), (3, 9)])
+        player2.create_player([(9, 4), (9, 9)], 9, 9, [(9, 4), (9, 9)])
+        x = 11
+        y = 14
+        for i in range(x):
+            matrix.append([Field(i, j) for j in range(y)])
+
+        return self.create_game_table(matrix, x, y, 9, player1, player2)
     def init_game_table(self):
         matrix = []
         x = y = k = None
