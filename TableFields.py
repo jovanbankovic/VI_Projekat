@@ -88,16 +88,12 @@ class TableFields(object):
         return table_fields
 
     def update_field_for_blue(self, x, y, k, wall):
-
         # for current down
         self.table_fields[x][y].wallDown["type"] = wall.wall_type
         self.table_fields[x][k].wallDown["type"] = wall.wall_type
         # for fields below we need to put up field
         self.table_fields[x+1][y].wallUp["type"] = wall.wall_type
         self.table_fields[x+1][k].wallUp["type"] = wall.wall_type
-
-        test = self.table_fields
-
 
     def update_field_for_green(self, x, y, k, wall):
         # for current down
@@ -106,10 +102,6 @@ class TableFields(object):
         # for fields below we need to put up field
         self.table_fields[x][y+1].wallLeft["type"] = wall.wall_type
         self.table_fields[k][k+1].wallLeft["type"] = wall.wall_type
-
-        test = self.table_fields
-
-        print('Baba')
 
     def is_game_over(self):
         for i in range(len(self.player1.figurePositions)):
