@@ -38,7 +38,6 @@ class Wall(object):
 
         elif inp == "green":
             wall = self.make_wall(inp, pos)
-            has_blue_wall = obj.table_fields[x+1][y].wallDown["type"] == "blue"
             if obj.table_fields[x][y].wallRight["type"] == "green":
                 print("Ima zid ovde!")
                 return -1

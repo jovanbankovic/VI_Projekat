@@ -48,9 +48,46 @@ class Figure(object):
         else:
             return "error"
 
-    def move(self, x, y):
+    def move(self, x, y, obj):
+        # treba uslov za opseg da ne izlazi van
         direction = self.determine_direction(x, y)
         match direction:
             case "desno":
-                self.positionX = x
-                self.positionY = y
+                if obj.table_fields[self.positionX][self.positionY+1].wallLeft["type"] == "green" or \
+                        obj.table_fields[self.positionX][self.positionY+1].wallRight["type"] == "green":
+                    print("You cant go there green wall is blocking you.")
+                else:
+                    self.positionX = x
+                    self.positionY = y
+            case "levo":
+                if obj.table_fields[self.positionX][self.positionY - 1].wallLeft["type"] == "green" or \
+                        obj.table_fields[self.positionX][self.positionY - 1].wallRight["type"] == "green":
+                    print("You cant go there green wall is blocking you.")
+                else:
+                    self.positionX = x
+                    self.positionY = y
+            case "gore":
+                if obj.table_fields[self.positionX-1][self.positionY].wallUp["type"] == "blue" or \
+                        obj.table_fields[self.positionX-1][self.positionY].wallDown["type"] == "blue":
+                    print("You cant go there blue wall is blocking you.")
+                else:
+                    self.positionX = x
+                    self.positionY = y
+            case "dole":
+                if obj.table_fields[self.positionX + 1][self.positionY].wallUp["type"] == "blue" or \
+                        obj.table_fields[self.positionX + 1][self.positionY].wallDown["type"] == "blue":
+                    print("You cant go there blue wall is blocking you.")
+                else:
+                    self.positionX = x
+                    self.positionY = y
+            case "dijagonalaGore_levo":
+                if obj.table_fields[self.positionX - 1][self.positionY - 1].wallDown["type"] == "blue" or \
+                        obj.table_fields[self.positionX - 1][self.positionY - 1].wallRight["type"] == "green" or \
+                            obj.table_fields[self.positionX][self.positionY].wallLeft["type"] == "green" or \
+                                obj.table_fields[self.positionX][self.positionY].wallUp["type"] == "green":
+                    print("You cant go there is  wall is blocking you.")
+                else:
+                    self.positionX = x
+                    self.positionY = y
+
+

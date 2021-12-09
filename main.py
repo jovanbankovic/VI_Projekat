@@ -13,8 +13,9 @@ if __name__ == '__main__':
     while obj.is_game_over() != 1 or obj.is_game_over != 2:
         print()
         if first_player_choice == 1:
-            obj.player1.move_figure()
             wallObj.init_wall(obj)
+            obj.print_game_table()
+            obj.player1.move_figure(obj)
             obj.print_game_table()
         elif first_player_choice == 2:
             obj.player2.move_figure()
