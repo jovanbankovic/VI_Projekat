@@ -15,16 +15,22 @@ def input_and_validate_pre_game_params(value, min_value, max_value, input_messag
         return value
 
 
-def define_starting_positions_for_players(min_x, max_x, min_y, max_y, first_position_message,
-                                          second_position_message, invalid_position_params):
-    first_position = int(input(first_position_message))
-    second_position = int(input(second_position_message))
-    if first_position < min_x or first_position > max_x and second_position < min_y or second_position > max_y:
-        print(invalid_position_params)
-        define_starting_positions_for_players(min_x, max_x, min_y, max_y, first_position_message,
-                                              second_position_message, invalid_position_params)
+def define_starting_x_position(min_x, max_x, first_position_message, invalid):
+    x = int(input(first_position_message))
+    if x < min_x or x > max_x:
+        print(invalid)
+        define_starting_x_position(min_x, max_x, first_position_message, invalid)
     else:
-        return first_position - 1, second_position - 1
+        return x - 1
+
+
+def define_starting_y_position(min_y, max_y, second_position_message, invalid):
+    y = int(input(second_position_message))
+    if y < min_y or y > max_y:
+        print(invalid)
+        define_starting_x_position(min_y, max_y, second_position_message, invalid)
+    else:
+        return y - 1
 
 
 class Field(object):
@@ -33,7 +39,6 @@ class Field(object):
     wallDown: {}
     wallLeft: {}
     wallRight: {}
-
 
     def __init__(self, i, j):
         self.index = (i, j)
@@ -50,7 +55,6 @@ class Field(object):
             "type": ''
         }
 
-
     def set_field(self, wallUp, wallDown, wallLeft, wallRight):
         self.wallUp = wallUp
         self.wallDown = wallDown
@@ -62,8 +66,8 @@ class Field(object):
 class TableFields(object):
     table_fields = []
     x = y = k = None
-    player1 = Player()
-    player2 = Player()
+    player1 = None
+    player2 = None
 
     def __init__(self):
         self.table_fields = self.table_fields
@@ -98,7 +102,6 @@ class TableFields(object):
 
         test = self.table_fields
 
-
     def update_field_for_green(self, x, y, k, wall):
         # for current down
         self.table_fields[x][y].wallRight["type"] = wall.wall_type
@@ -109,15 +112,17 @@ class TableFields(object):
 
         test = self.table_fields
 
-        print('Baba')
-
     def is_game_over(self):
-        for i in range(len(self.player1.figurePositions)):
-            for j in range(len(self.player2.startingPosition)):
-                if self.player1.figurePositions[i] == self.player2.startingPosition[j]:
-                    return 1
-                elif self.player2.figurePositions[i] == self.player1.startingPosition[j]:
-                    return 2
+        if ((self.player1.figure1.positionX == self.player2.figure1.startingPositionX and self.player1.figure1.positionY == self.player2.figure1.startingPositionY)
+            or (self.player1.figure1.positionX == self.player2.figure2.startingPositionX and self.player1.figure1.positionY == self.player2.figure2.startingPositionY)
+            or (self.player1.figure2.positionX == self.player2.figure1.startingPositionX and self.player1.figure2.positionY == self.player2.figure1.startingPositionY)
+            or (self.player1.figure2.positionX == self.player2.figure2.startingPositionX and self.player1.figure2.positionY == self.player2.figure2.startingPositionY)):
+            return 1
+        elif ((self.player2.figure1.positionX == self.player1.figure1.startingPositionX and self.player2.figure1.positionY == self.player1.figure1.startingPositionY)
+            or (self.player2.figure1.positionX == self.player1.figure2.startingPositionX and self.player2.figure1.positionY == self.player1.figure2.startingPositionY)
+            or (self.player2.figure2.positionX == self.player1.figure1.startingPositionX and self.player2.figure2.positionY == self.player1.figure1.startingPositionY)
+            or (self.player2.figure2.positionX == self.player1.figure2.startingPositionX and self.player2.figure2.positionY == self.player1.figure2.startingPositionY)):
+            return 2
 
     def print_game_table(self):
         print("   ", end="")
@@ -134,7 +139,8 @@ class TableFields(object):
 
                 # <!-- PROVERA DAL JE IGRAC NA PROTIVNICKOM POLJU DA SE ON ODSTAMPA
 
-                if self.player1.figurePositions[0] == (i, j) or self.player1.figurePositions[1] == (i, j):
+                if (self.player1.figure1.positionX == i and self.player1.figure1.positionY == j) \
+                        or (self.player1.figure2.positionX == i and self.player1.figure2.positionY == j):
                     if j == self.y - 1:
                         print("%1s" % " ✘", end="")
                     else:
@@ -142,7 +148,8 @@ class TableFields(object):
                             print("%1s" % " ✘", end="  ││")
                         else:
                             print("%1s" % " ✘", end=" │")
-                elif self.player1.startingPosition[0] == (i, j) or self.player1.startingPosition[1] == (i, j):
+                elif (self.player1.figure1.startingPositionX == i and self.player1.figure1.startingPositionY == j)\
+                        or (self.player1.figure2.startingPositionX == i and self.player1.figure2.startingPositionY == j):
                     if j == self.y - 1:
                         print("%1s" % " ◆", end="")
                     else:
@@ -150,7 +157,8 @@ class TableFields(object):
                             print("%1s" % " ◆", end="  ││")
                         else:
                             print("%1s" % " ◆", end=" │")
-                elif self.player2.figurePositions[0] == (i, j) or self.player2.figurePositions[1] == (i, j):
+                elif (self.player2.figure1.positionX == i and self.player2.figure1.positionY == j) \
+                        or (self.player2.figure2.positionX == i and self.player2.figure2.positionY == j):
                     if j == self.y - 1:
                         print("%1s" % " ⚫", end="")
                     else:
@@ -158,7 +166,8 @@ class TableFields(object):
                             print("%1s" % " ⚫", end="  ││")
                         else:
                             print("%1s" % " ⚫", end=" │")
-                elif self.player2.startingPosition[0] == (i, j) or self.player2.startingPosition[1] == (i, j):
+                elif (self.player2.figure1.startingPositionX == i and self.player2.figure1.startingPositionY == j)\
+                        or (self.player2.figure2.startingPositionX == i and self.player2.figure2.startingPositionY == j):
                     if j == self.y - 1:
                         print("%1s" % " ◇", end="")
                     else:
@@ -193,43 +202,28 @@ class TableFields(object):
         for j in range(self.y):
             print("%4s" % hex(j + 1).split('x')[-1].upper(), end="")
 
-    def init_game_test(self):
-        matrix = []
-        player1 = Player()
-        player2 = Player()
-        player1.create_player([(3, 4), (3, 9)], 9, 9, [(3, 4), (3, 9)])
-        player2.create_player([(9, 4), (9, 9)], 9, 9, [(9, 4), (9, 9)])
-        x = 11
-        y = 14
-        for i in range(x):
-            matrix.append([Field(i, j) for j in range(y)])
-
-        return self.create_game_table(matrix, x, y, 9, player1, player2)
     def init_game_table(self):
         matrix = []
         x = y = k = None
-        player1 = Player()
-        player2 = Player()
 
         x = input_and_validate_pre_game_params(x, minMatrixDimensionX, maxMatrixDimensionX, matrixDimensionX)
         y = input_and_validate_pre_game_params(y, minMatrixDimensionY, maxMatrixDimensionY, matrixDimensionY)
         k = input_and_validate_pre_game_params(k, minAmountOfWalls, maxAmountOfWalls, amountOfWalls)
 
-        player1.figurePositions = \
-            player1.startingPosition = \
-            [define_starting_positions_for_players(0, x, 0, y, player1Position1MessageX, player1Position1MessageY,
-                                                   invalidPositionMessage),
-             define_starting_positions_for_players(0, x, 0, y, player1Position2MessageX, player1Position2MessageY,
-                                                   invalidPositionMessage)]
-        player2.figurePositions = \
-            player2.startingPosition = \
-            [define_starting_positions_for_players(0, x, 0, y, player2Position1MessageX, player2Position1MessageY,
-                                                   invalidPositionMessage),
-             define_starting_positions_for_players(0, x, 0, y, player2Position2MessageX, player2Position2MessageY,
-                                                   invalidPositionMessage)]
+        player1_figure1_x = define_starting_x_position(0, x, player1Position1MessageX, invalidPreGameParamsMessage)
+        player1_figure1_y = define_starting_y_position(0, y, player1Position1MessageY, invalidPreGameParamsMessage)
 
-        player1.remainingBlueWalls = player1.remainingBlueWalls = \
-            player2.remainingBlueWalls = player2.remainingGreenWalls = k
+        player1_figure2_x = define_starting_x_position(0, x, player1Position2MessageX, invalidPreGameParamsMessage)
+        player1_figure2_y = define_starting_y_position(0, y, player1Position2MessageY, invalidPreGameParamsMessage)
+
+        player2_figure1_x = define_starting_x_position(0, x, player2Position1MessageX, invalidPreGameParamsMessage)
+        player2_figure1_y = define_starting_y_position(0, y, player2Position1MessageY, invalidPreGameParamsMessage)
+
+        player2_figure2_x = define_starting_x_position(0, x, player2Position2MessageX, invalidPreGameParamsMessage)
+        player2_figure2_y = define_starting_y_position(0, y, player2Position2MessageY, invalidPreGameParamsMessage)
+
+        player1 = Player(player1_figure1_x, player1_figure1_y, player1_figure2_x, player1_figure2_y, k)
+        player2 = Player(player2_figure1_x, player2_figure1_y, player2_figure2_x, player2_figure2_y, k)
 
         for i in range(x):
             matrix.append([Field(i, j) for j in range(y)])

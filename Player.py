@@ -1,26 +1,28 @@
+from Figure import Figure
+
+
 class Player(object):
-    figurePositions = None
+    figure1 = None
+    figure2 = None
     remainingBlueWalls = None
     remainingGreenWalls = None
-    startingPosition = None
 
-    def __init__(self):
-        self.figurePositions = self.figurePositions
-        self.remainingBlueWalls = self. remainingBlueWalls
-        self.remainingGreenWalls = self.remainingGreenWalls
-        self.startingPosition = self.startingPosition
+    def __init__(self, first_figure_pos_x, first_figure_pos_y, second_figure_pos_x, second_figure_pos_y, remaining_walls):
+        self.figure1 = Figure(first_figure_pos_x, first_figure_pos_y)
+        self.figure2 = Figure(second_figure_pos_x, second_figure_pos_y)
+        self.remainingBlueWalls = remaining_walls
+        self.remainingGreenWalls = remaining_walls
 
     def __str__(self):
         return str(self.__class__) + '\n' + '\n'.join(
             ('{} = {}'.format(item, self.__dict__[item]) for item in self.__dict__))
 
-    def create_player(self, figure_positions, remaining_blue, remaining_green, starting_pos):
-        self.figurePositions = figure_positions
-        self.remainingBlueWalls = remaining_blue
-        self.remainingGreenWalls = remaining_green
-        self.startingPosition = starting_pos
-        player = Player()
-        return player
+    def move_figure1(self):
+        x = int(input('X koordinata prve figure: ')) - 1
+        y = int(input('Y koordinata prve figure: ')) - 1
+        self.figure1.move_figure(x, y)
 
-    def move_player(self, new_position):
-        self.figurePositions = new_position
+    def move_figure2(self):
+        x = int(input('X koordinata druge figure: ')) - 1
+        y = int(input('Y koordinata druge figure: ')) - 1
+        self.figure2.move_figure(x, y)
