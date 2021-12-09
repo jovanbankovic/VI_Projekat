@@ -17,12 +17,15 @@ class Player(object):
         return str(self.__class__) + '\n' + '\n'.join(
             ('{} = {}'.format(item, self.__dict__[item]) for item in self.__dict__))
 
-    def move_figure1(self):
-        x = int(input('X koordinata prve figure: ')) - 1
-        y = int(input('Y koordinata prve figure: ')) - 1
-        self.figure1.move_figure(x, y)
+    def move_figure(self):
+        figure = input("Choose figure 1 or 2: ")
+        x = int(input('X koordinata figure: ')) - 1
+        y = int(input('Y koordinata figure: ')) - 1
+        if figure == "1":
+            self.figure1.move(x, y)
+        elif figure == "2":
+            self.figure2.move(x, y)
+        else:
+            print('Please choose between 1 or 2.')
+            self.move_figure()
 
-    def move_figure2(self):
-        x = int(input('X koordinata druge figure: ')) - 1
-        y = int(input('Y koordinata druge figure: ')) - 1
-        self.figure2.move_figure(x, y)

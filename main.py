@@ -12,5 +12,5 @@ if __name__ == '__main__':
     while obj.is_game_over() != 1 or obj.is_game_over != 2:
         print()
         wallObj.init_wall(obj)
-        obj.player1.move_figure1()
+        obj.player1.move_figure()
         obj.print_game_table()
