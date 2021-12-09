@@ -1,6 +1,20 @@
 from Figure import Figure
 
 
+def define_first_player():
+    print('Choose the first player.')
+    print('Type Me if you want to go first.')
+    print('Type Computer if you want computer to play first.')
+    choice = input('> ')
+    if choice == 'Me':
+        return 1
+    elif choice == 'Computer':
+        return 2
+    else:
+        print('Invalid choice of first player. Try again. ')
+        define_first_player()
+
+
 class Player(object):
     figure1 = None
     figure2 = None
