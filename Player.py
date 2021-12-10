@@ -31,7 +31,7 @@ class Player(object):
         return str(self.__class__) + '\n' + '\n'.join(
             ('{} = {}'.format(item, self.__dict__[item]) for item in self.__dict__))
 
-    def move_figure(self,obj):
+    def move_figure(self, obj):
         figure = input("Choose figure 1 or 2: ")
         x = int(input('X koordinata figure: ')) - 1
         y = int(input('Y koordinata figure: ')) - 1

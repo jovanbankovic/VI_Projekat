@@ -145,7 +145,7 @@ class TableFields(object):
                         print("%1s" % " ✘", end="")
                     else:
                         if self.table_fields[i][j].wallRight["type"] == "green":
-                            print("%1s" % " ✘", end="  ││")
+                            print("%1s" % " ✘", end=" ║")
                         else:
                             print("%1s" % " ✘", end=" │")
                 elif (self.player1.figure1.startingPositionX == i and self.player1.figure1.startingPositionY == j)\
@@ -154,7 +154,7 @@ class TableFields(object):
                         print("%1s" % " ◆", end="")
                     else:
                         if self.table_fields[i][j].wallRight["type"] == "green":
-                            print("%1s" % " ◆", end="  ││")
+                            print("%1s" % " ◆", end=" ║")
                         else:
                             print("%1s" % " ◆", end=" │")
                 elif (self.player2.figure1.positionX == i and self.player2.figure1.positionY == j) \
@@ -163,7 +163,7 @@ class TableFields(object):
                         print("%1s" % " ⚫", end="")
                     else:
                         if self.table_fields[i][j].wallRight["type"] == "green":
-                            print("%1s" % " ⚫", end="  ││")
+                            print("%1s" % " ⚫", end=" ║")
                         else:
                             print("%1s" % " ⚫", end=" │")
                 elif (self.player2.figure1.startingPositionX == i and self.player2.figure1.startingPositionY == j)\
@@ -172,7 +172,7 @@ class TableFields(object):
                         print("%1s" % " ◇", end="")
                     else:
                         if self.table_fields[i][j].wallRight["type"] == "green":
-                            print("%1s" % " ◇", end="  ││")
+                            print("%1s" % " ◇", end=" ║")
                         else:
                             print("%1s" % " ◇", end=" │")
                 else:
@@ -180,7 +180,7 @@ class TableFields(object):
                         print("%1s" % "  ", end="")
                     else:
                         if self.table_fields[i][j].wallRight["type"] == "green":
-                            print("%1s" % " ", end="  ║")
+                            print("%1s" % " ", end=" ║")
                         else:
                             print("%1s" % " ", end="  │")
 
