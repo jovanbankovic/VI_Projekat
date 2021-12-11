@@ -32,14 +32,19 @@ class Player(object):
             ('{} = {}'.format(item, self.__dict__[item]) for item in self.__dict__))
 
     def move_figure(self, obj):
+        print()
         figure = input("Choose figure 1 or 2: ")
         x = int(input('X koordinata figure: ')) - 1
         y = int(input('Y koordinata figure: ')) - 1
         if figure == "1":
-            self.figure1.move(x, y, obj)
+            return_val = self.figure1.move(x, y, obj)
+            if return_val == -1:
+                self.move_figure(obj)
         elif figure == "2":
-            self.figure2.move(x, y, obj)
+            return_val = self.figure2.move(x, y, obj)
+            if return_val == -1:
+                self.move_figure(obj)
         else:
             print('Please choose between 1 or 2.')
-            self.move_figure()
+            self.move_figure(obj)
 

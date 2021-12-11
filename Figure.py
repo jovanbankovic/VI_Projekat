@@ -78,6 +78,7 @@ class Figure(object):
                     if obj.table_fields[self.positionX][self.positionY+1].wallLeft["type"] == "green" or \
                             obj.table_fields[self.positionX][self.positionY+1].wallRight["type"] == "green":
                         print("You cant go there green wall is blocking you.")
+                        return -1
                     else:
                         self.positionX = x
                         self.positionY = y
@@ -85,15 +86,18 @@ class Figure(object):
                     if self.is_occupied(x, y+1, obj) == -1:
                         if obj.table_fields[self.positionX][self.positionY].wallRight["type"] == "green":
                             print("You cant go there green wall is blocking you.")
+                            return -1
                         else:
                             self.positionX = x
                             self.positionY = y
                     else:
                         print("You cant jump 1 filed!")
+                        return -1
                 case "levo":
                     if obj.table_fields[self.positionX][self.positionY - 1].wallLeft["type"] == "green" or \
                             obj.table_fields[self.positionX][self.positionY - 1].wallRight["type"] == "green":
                         print("You cant go there green wall is blocking you.")
+                        return -1
                     else:
                         self.positionX = x
                         self.positionY = y
@@ -101,15 +105,18 @@ class Figure(object):
                     if self.is_occupied(x, y - 1, obj) == -1:
                         if obj.table_fields[self.positionX][self.positionY].wallLeft["type"] == "green":
                             print("You cant go there green wall is blocking you.")
+                            return -1
                         else:
                             self.positionX = x
                             self.positionY = y
                     else:
                         print("You cant jump 1 filed!")
+                        return -1
                 case "gore":
                     if obj.table_fields[self.positionX-1][self.positionY].wallUp["type"] == "blue" or \
                             obj.table_fields[self.positionX-1][self.positionY].wallDown["type"] == "blue":
                         print("You cant go there blue wall is blocking you.")
+                        return -1
                     else:
                         self.positionX = x
                         self.positionY = y
@@ -117,15 +124,18 @@ class Figure(object):
                     if self.is_occupied(x-1, y, obj) == -1:
                         if obj.table_fields[self.positionX][self.positionY].wallUp["type"] == "blue":
                             print("You cant go there green wall is blocking you.")
+                            return -1
                         else:
                             self.positionX = x
                             self.positionY = y
                     else:
                         print("You cant jump 1 filed!")
+                        return -1
                 case "dole":
                     if obj.table_fields[self.positionX + 1][self.positionY].wallUp["type"] == "blue" or \
                             obj.table_fields[self.positionX + 1][self.positionY].wallDown["type"] == "blue":
                         print("You cant go there blue wall is blocking you.")
+                        return -1
                     else:
                         self.positionX = x
                         self.positionY = y
@@ -133,6 +143,7 @@ class Figure(object):
                     if self.is_occupied(x + 1, y, obj) == -1:
                         if obj.table_fields[self.positionX][self.positionY].wallDown["type"] == "blue":
                             print("You cant go there green wall is blocking you.")
+                            return -1
                         else:
                             self.positionX = x
                             self.positionY = y
@@ -144,6 +155,7 @@ class Figure(object):
                                 obj.table_fields[self.positionX][self.positionY].wallLeft["type"] == "green" or \
                                     obj.table_fields[self.positionX][self.positionY].wallUp["type"] == "blue":
                         print("You cant go there is  wall is blocking you.")
+                        return -1
                     else:
                         self.positionX = x
                         self.positionY = y
@@ -153,6 +165,7 @@ class Figure(object):
                             obj.table_fields[self.positionX][self.positionY].wallRight["type"] == "green" or \
                             obj.table_fields[self.positionX][self.positionY].wallUp["type"] == "blue":
                         print("You cant go there is  wall is blocking you.")
+                        return -1
                     else:
                         self.positionX = x
                         self.positionY = y
@@ -162,6 +175,7 @@ class Figure(object):
                             obj.table_fields[self.positionX][self.positionY].wallRight["type"] == "green" or \
                             obj.table_fields[self.positionX][self.positionY].wallDown["type"] == "blue":
                         print("You cant go there is  wall is blocking you.")
+                        return -1
                     else:
                         self.positionX = x
                         self.positionY = y
@@ -171,10 +185,12 @@ class Figure(object):
                             obj.table_fields[self.positionX][self.positionY].wallLeft["type"] == "green" or \
                             obj.table_fields[self.positionX][self.positionY].wallDown["type"] == "blue":
                         print("You cant go there is  wall is blocking you.")
+                        return -1
                     else:
                         self.positionX = x
                         self.positionY = y
         else:
             print("That filed is occupied!")
+            return -1
 
 

@@ -17,40 +17,46 @@ class Wall(object):
         self.position = position
         return self
 
-    def init_wall(self, obj):
+    def init_wall(self, obj, player):
         x = int(input("Write position X: ")) - 1
         y = int(input("Write position Y: ")) - 1
         pos = (x, y)
         inp = input("Choose blue or green: ")
         if inp == "blue":
-            wall = self.make_wall(inp, pos)
-            if obj.table_fields[x][y].wallDown["type"] == "blue":
-                print("Ima zid ovde!")
-                return -1
-            elif obj.table_fields[x][y + 1].wallDown["type"] == "blue":
-                print("Ima zid pored!")
-                return -1
-            elif obj.table_fields[x][y].wallRight["type"] == "green":
-                print("Ima zeleni zid izmedju!");
-                return -1
+            if player.remainingBlueWalls > 0:
+                wall = self.make_wall(inp, pos)
+                if obj.table_fields[x][y].wallDown["type"] == "blue":
+                    print("Ima zid ovde!")
+                    return -1
+                elif obj.table_fields[x][y + 1].wallDown["type"] == "blue":
+                    print("Ima zid pored!")
+                    return -1
+                elif obj.table_fields[x][y].wallRight["type"] == "green":
+                    print("Ima zeleni zid izmedju!")
+                    return -1
+                else:
+                    player.remainingBlueWalls = player.remainingBlueWalls - 1
+                    obj.update_field_for_blue(x, y, y+1, wall)
             else:
-                obj.update_field_for_blue(x, y, y+1, wall)
-
+                print("Nemate vise plavih zidova!")
         elif inp == "green":
-            wall = self.make_wall(inp, pos)
-            if obj.table_fields[x][y].wallRight["type"] == "green":
-                print("Ima zid ovde!")
-                return -1
-            elif obj.table_fields[x+1][y].wallRight["type"] == "green":
-                print("Ima zid ispod!")
-                return -1
-            elif obj.table_fields[x][y].wallDown["type"] == "blue":
-                print("Ima plavi zid izmedju!!!!");
-                return -1
+            if player.remainingGreenWallsWalls > 0:
+                wall = self.make_wall(inp, pos)
+                if obj.table_fields[x][y].wallRight["type"] == "green":
+                    print("Ima zid ovde!")
+                    return -1
+                elif obj.table_fields[x+1][y].wallRight["type"] == "green":
+                    print("Ima zid ispod!")
+                    return -1
+                elif obj.table_fields[x][y].wallDown["type"] == "blue":
+                    print("Ima plavi zid izmedju!!!!")
+                    return -1
+                else:
+                    obj.update_field_for_green(x, y, x+1, wall)
             else:
-                obj.update_field_for_green(x, y, x+1, wall)
+                print("Nemate vise zelenih zidova!")
         else:
             print("You must choose between blue or green")
-            return self.init_wall()
+            self.init_wall(obj)
 
 
