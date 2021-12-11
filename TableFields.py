@@ -4,13 +4,14 @@ from _common import matrixDimensionX, matrixDimensionY, minMatrixDimensionY, min
     player2Position1MessageX, player2Position2MessageX, player2Position2MessageY, invalidPositionMessage, \
     invalidPreGameParamsMessage
 from Player import Player
+from Colors import Colors
 
 
-def input_and_validate_pre_game_params(value, min_value, max_value, input_message):
+def input_and_validate_pre_game_params(min_value, max_value, input_message):
     value = int(input(input_message))
     if value < min_value or value > max_value:
         print(invalidPreGameParamsMessage)
-        input_and_validate_pre_game_params(value, min_value, max_value, input_message)
+        return input_and_validate_pre_game_params(min_value, max_value, input_message)
     else:
         return value
 
@@ -19,7 +20,7 @@ def define_starting_x_position(min_x, max_x, first_position_message, invalid):
     x = int(input(first_position_message))
     if x < min_x or x > max_x:
         print(invalid)
-        define_starting_x_position(min_x, max_x, first_position_message, invalid)
+        return define_starting_x_position(min_x, max_x, first_position_message, invalid)
     else:
         return x - 1
 
@@ -28,7 +29,7 @@ def define_starting_y_position(min_y, max_y, second_position_message, invalid):
     y = int(input(second_position_message))
     if y < min_y or y > max_y:
         print(invalid)
-        define_starting_x_position(min_y, max_y, second_position_message, invalid)
+        return define_starting_x_position(min_y, max_y, second_position_message, invalid)
     else:
         return y - 1
 
@@ -136,9 +137,6 @@ class TableFields(object):
         for i in range(self.x):
             print("\n%4s╟" % hex(i + 1).split('x')[-1].upper(), end="")
             for j in range(self.y):
-
-                # <!-- PROVERA DAL JE IGRAC NA PROTIVNICKOM POLJU DA SE ON ODSTAMPA
-
                 if (self.player1.figure1.positionX == i and self.player1.figure1.positionY == j) \
                         or (self.player1.figure2.positionX == i and self.player1.figure2.positionY == j):
                     if j == self.y - 1:
@@ -151,12 +149,12 @@ class TableFields(object):
                 elif (self.player1.figure1.startingPositionX == i and self.player1.figure1.startingPositionY == j)\
                         or (self.player1.figure2.startingPositionX == i and self.player1.figure2.startingPositionY == j):
                     if j == self.y - 1:
-                        print("%1s" % " ◆", end="")
+                        print("%1s" % Colors.FAIL + " ◆" + Colors.ENDC, end="")
                     else:
                         if self.table_fields[i][j].wallRight["type"] == "green":
-                            print("%1s" % " ◆", end=" ║")
+                            print("%1s" % Colors.FAIL + " ◆" + Colors.ENDC, end=" ║")
                         else:
-                            print("%1s" % " ◆", end=" │")
+                            print("%1s" % Colors.FAIL + " ◆" + Colors.ENDC, end=" │")
                 elif (self.player2.figure1.positionX == i and self.player2.figure1.positionY == j) \
                         or (self.player2.figure2.positionX == i and self.player2.figure2.positionY == j):
                     if j == self.y - 1:
@@ -169,12 +167,12 @@ class TableFields(object):
                 elif (self.player2.figure1.startingPositionX == i and self.player2.figure1.startingPositionY == j)\
                         or (self.player2.figure2.startingPositionX == i and self.player2.figure2.startingPositionY == j):
                     if j == self.y - 1:
-                        print("%1s" % " ◇", end="")
+                        print("%1s" % Colors.WARNING + " ◇", end="")
                     else:
                         if self.table_fields[i][j].wallRight["type"] == "green":
-                            print("%1s" % " ◇", end=" ║")
+                            print("%1s" % Colors.WARNING + " ◇" + Colors.ENDC, end=" ║")
                         else:
-                            print("%1s" % " ◇", end=" │")
+                            print("%1s" % Colors.WARNING + " ◇" + Colors.ENDC, end=" │")
                 else:
                     if j == self.y - 1:
                         print("%1s" % "  ", end="")
@@ -201,14 +199,23 @@ class TableFields(object):
         print("   ", end="")
         for j in range(self.y):
             print("%4s" % hex(j + 1).split('x')[-1].upper(), end="")
+        print()
+        print('Player ' + Colors.OKBLUE + '1' + Colors.ENDC +
+              ' remaining ' + Colors.OKBLUE + 'blue ' + Colors.ENDC + 'walls: ' + str(self.player1.remainingBlueWalls))
+        print('Player ' + Colors.OKBLUE + '1' + Colors.ENDC +
+              ' remaining ' + Colors.OKGREEN + 'green ' + Colors.ENDC + 'walls: ' + str(self.player1.remainingGreenWalls))
+        print()
+        print('Player ' + Colors.OKBLUE + '2' + Colors.ENDC +
+              ' remaining ' + Colors.OKBLUE + 'blue ' + Colors.ENDC + 'walls: ' + str(self.player2.remainingBlueWalls))
+        print('Player ' + Colors.OKBLUE + '2' + Colors.ENDC +
+              ' remaining ' + Colors.OKGREEN + 'green ' + Colors.ENDC + 'walls: ' + str(self.player2.remainingGreenWalls))
 
     def init_game_table(self):
         matrix = []
-        x = y = k = None
 
-        x = input_and_validate_pre_game_params(x, minMatrixDimensionX, maxMatrixDimensionX, matrixDimensionX)
-        y = input_and_validate_pre_game_params(y, minMatrixDimensionY, maxMatrixDimensionY, matrixDimensionY)
-        k = input_and_validate_pre_game_params(k, minAmountOfWalls, maxAmountOfWalls, amountOfWalls)
+        x = input_and_validate_pre_game_params(minMatrixDimensionX, maxMatrixDimensionX, matrixDimensionX)
+        y = input_and_validate_pre_game_params(minMatrixDimensionY, maxMatrixDimensionY, matrixDimensionY)
+        k = input_and_validate_pre_game_params(minAmountOfWalls, maxAmountOfWalls, amountOfWalls)
 
         player1_figure1_x = define_starting_x_position(0, x, player1Position1MessageX, invalidPreGameParamsMessage)
         player1_figure1_y = define_starting_y_position(0, y, player1Position1MessageY, invalidPreGameParamsMessage)

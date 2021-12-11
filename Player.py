@@ -1,18 +1,19 @@
 from Figure import Figure
+from Colors import Colors
 
 
 def define_first_player():
-    print('Choose the first player.')
-    print('Type Me if you want to go first.')
-    print('Type Computer if you want computer to play first.')
-    choice = input('> ')
-    if choice == 'Me':
+    print(Colors.OKBLUE + 'Choose the first player.' + Colors.ENDC)
+    print('Type ' + Colors.OKBLUE + 'Me' + Colors.ENDC + ' if you want to go first.')
+    print('Type ' + Colors.OKBLUE + 'Computer' + Colors.ENDC + ' if you want computer to play first.')
+    choice = input('> ').lower()
+    if choice == 'me':
         return 1
-    elif choice == 'Computer':
+    elif choice == 'computer':
         return 2
     else:
-        print('Invalid choice of first player. Try again. ')
-        define_first_player()
+        print(Colors.FAIL + 'Invalid choice of first player. Try again. ' + Colors.ENDC)
+        return define_first_player()
 
 
 class Player(object):
@@ -33,18 +34,18 @@ class Player(object):
 
     def move_figure(self, obj):
         print()
-        figure = input("Choose figure 1 or 2: ")
-        x = int(input('X koordinata figure: ')) - 1
-        y = int(input('Y koordinata figure: ')) - 1
+        figure = input(Colors.OKBLUE + "Choose figure 1 or 2: " + Colors.ENDC)
+        x = int(input('Enter the ' + Colors.OKBLUE + 'X' + Colors.ENDC + ' coordinate of the figure: ')) - 1
+        y = int(input('Enter the ' + Colors.OKBLUE + 'Y' + Colors.ENDC + ' coordinate of the figure: ')) - 1
         if figure == "1":
             return_val = self.figure1.move(x, y, obj)
             if return_val == -1:
-                self.move_figure(obj)
+                return self.move_figure(obj)
         elif figure == "2":
             return_val = self.figure2.move(x, y, obj)
             if return_val == -1:
-                self.move_figure(obj)
+                return self.move_figure(obj)
         else:
-            print('Please choose between 1 or 2.')
-            self.move_figure(obj)
+            print(Colors.FAIL + 'Please choose between 1 or 2.' + Colors.ENDC)
+            return self.move_figure(obj)
 
