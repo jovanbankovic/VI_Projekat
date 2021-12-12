@@ -35,17 +35,25 @@ class Player(object):
     def move_figure(self, obj):
         print()
         figure = input(Colors.OKBLUE + "Choose figure 1 or 2: " + Colors.ENDC)
-        x = int(input('Enter the ' + Colors.OKBLUE + 'X' + Colors.ENDC + ' coordinate of the figure: ')) - 1
-        y = int(input('Enter the ' + Colors.OKBLUE + 'Y' + Colors.ENDC + ' coordinate of the figure: ')) - 1
-        if figure == "1":
-            return_val = self.figure1.move(x, y, obj)
-            if return_val == -1:
-                return self.move_figure(obj)
-        elif figure == "2":
-            return_val = self.figure2.move(x, y, obj)
-            if return_val == -1:
-                return self.move_figure(obj)
-        else:
-            print(Colors.FAIL + 'Please choose between 1 or 2.' + Colors.ENDC)
+        try:
+            x = int(input('Enter the ' + Colors.OKBLUE + 'X' + Colors.ENDC + ' coordinate of the figure: ')) - 1
+            y = int(input('Enter the ' + Colors.OKBLUE + 'Y' + Colors.ENDC + ' coordinate of the figure: ')) - 1
+        except ValueError:
+            print(Colors.WARNING + 'Value must be number. Please try again.' + Colors.ENDC)
             return self.move_figure(obj)
 
+        if (0 < x < obj.x) or (0 < y < obj.y):
+            if figure == "1":
+                return_val = self.figure1.move(x, y, obj)
+                if return_val == -1:
+                    return self.move_figure(obj)
+            elif figure == "2":
+                return_val = self.figure2.move(x, y, obj)
+                if return_val == -1:
+                    return self.move_figure(obj)
+            else:
+                print(Colors.FAIL + 'Please choose between 1 or 2.' + Colors.ENDC)
+                return self.move_figure(obj)
+        else:
+            print(Colors.WARNING + 'Entered values are invalid. Please try again.' + Colors.ENDC)
+            return self.move_figure(obj)
