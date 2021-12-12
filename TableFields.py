@@ -35,6 +35,9 @@ def define_starting_y_position(min_y, max_y, second_position_message, invalid):
 
 
 class Field(object):
+    """
+    Class filed is awsome
+    """
     index: ()
     wallUp: {}
     wallDown: {}
