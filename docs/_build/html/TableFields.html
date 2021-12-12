@@ -70,7 +70,6 @@
 <dt class="sig sig-object py" id="TableFields.Field">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TableFields.</span></span><span class="sig-name descname"><span class="pre">Field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TableFields.Field" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Class filed is awsome</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="TableFields.Field.index">
 <span class="sig-name descname"><span class="pre">index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span></em><a class="headerlink" href="#TableFields.Field.index" title="Permalink to this definition"></a></dt>
@@ -79,7 +78,8 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="TableFields.Field.set_field">
 <span class="sig-name descname"><span class="pre">set_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wallUp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wallDown</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wallLeft</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wallRight</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TableFields.Field.set_field" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Funkcija koja postavlja parametre polja</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="TableFields.Field.wallDown">
@@ -110,17 +110,20 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="TableFields.TableFields.create_game_table">
 <span class="sig-name descname"><span class="pre">create_game_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_fields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TableFields.TableFields.create_game_table" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Funkcija koja postavlja osnovne parametre igre (velicinu polja, broj zidova, samo polje i igrace)</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TableFields.TableFields.init_game_table">
 <span class="sig-name descname"><span class="pre">init_game_table</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TableFields.TableFields.init_game_table" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Funkcija koja sluzi za unos osnovih parametara i kreiranje matrice polja</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TableFields.TableFields.is_game_over">
 <span class="sig-name descname"><span class="pre">is_game_over</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TableFields.TableFields.is_game_over" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Funkcija koja proverava da li je igra zavrsena</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="TableFields.TableFields.k">
@@ -140,7 +143,8 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="TableFields.TableFields.print_game_table">
 <span class="sig-name descname"><span class="pre">print_game_table</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TableFields.TableFields.print_game_table" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Funkcija koja sluzi za prikaz igre</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="TableFields.TableFields.table_fields">
@@ -150,12 +154,14 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="TableFields.TableFields.update_field_for_blue">
 <span class="sig-name descname"><span class="pre">update_field_for_blue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wall</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TableFields.TableFields.update_field_for_blue" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Funkcija koja postavlja plavi zid na zadatim pozicijama u matrici polja</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TableFields.TableFields.update_field_for_green">
 <span class="sig-name descname"><span class="pre">update_field_for_green</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wall</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TableFields.TableFields.update_field_for_green" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Funkcija koja postavlja zeleni zid na zadatim pozicijama u matrici polja</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="TableFields.TableFields.x">
@@ -172,17 +178,20 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="TableFields.define_starting_x_position">
 <span class="sig-prename descclassname"><span class="pre">TableFields.</span></span><span class="sig-name descname"><span class="pre">define_starting_x_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_position_message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invalid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TableFields.define_starting_x_position" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Funkcija koja omogucava korisniku da X koordinatu pocetne pozicije uz validaciju</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="TableFields.define_starting_y_position">
 <span class="sig-prename descclassname"><span class="pre">TableFields.</span></span><span class="sig-name descname"><span class="pre">define_starting_y_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_position_message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invalid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TableFields.define_starting_y_position" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Funkcija koja omogucava korisniku da Y koordinatu pocetne pozicije uz validaciju</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="TableFields.input_and_validate_pre_game_params">
 <span class="sig-prename descclassname"><span class="pre">TableFields.</span></span><span class="sig-name descname"><span class="pre">input_and_validate_pre_game_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TableFields.input_and_validate_pre_game_params" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Funkcija koja omogucava korisniku da unese velicinu polja igre i broj zidova uz validaciju</p>
+</dd></dl>
 
 </section>
 
