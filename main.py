@@ -18,6 +18,7 @@ if __name__ == '__main__':
             obj.player1.move_figure(obj)
             obj.print_game_table()
         elif first_player_choice == 2:
-            obj.player2.move_figure()
             wallObj.init_wall(obj, obj.player2)
+            obj.print_game_table()
+            obj.player2.move_figure(obj)
             obj.print_game_table()

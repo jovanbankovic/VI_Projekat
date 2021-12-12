@@ -8,6 +8,9 @@ from Colors import Colors
 
 
 def input_and_validate_pre_game_params(min_value, max_value, input_message):
+    """
+    Funkcija koja omogucava korisniku da unese velicinu polja igre i broj zidova uz validaciju
+    """
     value = int(input(input_message))
     if value < min_value or value > max_value:
         print(invalidPreGameParamsMessage)
@@ -17,6 +20,9 @@ def input_and_validate_pre_game_params(min_value, max_value, input_message):
 
 
 def define_starting_x_position(min_x, max_x, first_position_message, invalid):
+    """
+    Funkcija koja omogucava korisniku da X koordinatu pocetne pozicije uz validaciju
+    """
     x = int(input(first_position_message))
     if x < min_x or x > max_x:
         print(invalid)
@@ -26,6 +32,9 @@ def define_starting_x_position(min_x, max_x, first_position_message, invalid):
 
 
 def define_starting_y_position(min_y, max_y, second_position_message, invalid):
+    """
+    Funkcija koja omogucava korisniku da Y koordinatu pocetne pozicije uz validaciju
+    """
     y = int(input(second_position_message))
     if y < min_y or y > max_y:
         print(invalid)
@@ -35,9 +44,6 @@ def define_starting_y_position(min_y, max_y, second_position_message, invalid):
 
 
 class Field(object):
-    """
-    Class filed is awsome
-    """
     index: ()
     wallUp: {}
     wallDown: {}
@@ -60,6 +66,9 @@ class Field(object):
         }
 
     def set_field(self, wallUp, wallDown, wallLeft, wallRight):
+        """
+        Funkcija koja postavlja parametre polja
+        """
         self.wallUp = wallUp
         self.wallDown = wallDown
         self.wallLeft = wallLeft
@@ -86,6 +95,9 @@ class TableFields(object):
             ('{} = {}'.format(item, self.__dict__[item]) for item in self.__dict__))
 
     def create_game_table(self, table_fields, x, y, k, player1, player2):
+        """
+        Funkcija koja postavlja osnovne parametre igre (velicinu polja, broj zidova, samo polje i igrace)
+        """
         self.table_fields = table_fields
         self.x = x
         self.y = y
@@ -96,27 +108,29 @@ class TableFields(object):
         return table_fields
 
     def update_field_for_blue(self, x, y, k, wall):
-
-        # for current down
+        """
+        Funkcija koja postavlja plavi zid na zadatim pozicijama u matrici polja
+        """
         self.table_fields[x][y].wallDown["type"] = wall.wall_type
         self.table_fields[x][k].wallDown["type"] = wall.wall_type
-        # for fields below we need to put up field
         self.table_fields[x+1][y].wallUp["type"] = wall.wall_type
         self.table_fields[x+1][k].wallUp["type"] = wall.wall_type
 
-        test = self.table_fields
 
     def update_field_for_green(self, x, y, k, wall):
-        # for current down
+        """
+        Funkcija koja postavlja zeleni zid na zadatim pozicijama u matrici polja
+        """
         self.table_fields[x][y].wallRight["type"] = wall.wall_type
         self.table_fields[k][y].wallRight["type"] = wall.wall_type
-        # for fields below we need to put up field
         self.table_fields[x][y+1].wallLeft["type"] = wall.wall_type
         self.table_fields[k][k+1].wallLeft["type"] = wall.wall_type
 
-        test = self.table_fields
 
     def is_game_over(self):
+        """
+        Funkcija koja proverava da li je igra zavrsena
+        """
         if ((self.player1.figure1.positionX == self.player2.figure1.startingPositionX and self.player1.figure1.positionY == self.player2.figure1.startingPositionY)
             or (self.player1.figure1.positionX == self.player2.figure2.startingPositionX and self.player1.figure1.positionY == self.player2.figure2.startingPositionY)
             or (self.player1.figure2.positionX == self.player2.figure1.startingPositionX and self.player1.figure2.positionY == self.player2.figure1.startingPositionY)
@@ -129,6 +143,9 @@ class TableFields(object):
             return 2
 
     def print_game_table(self):
+        """
+        Funkcija koja sluzi za prikaz igre
+        """
         print("   ", end="")
         for j in range(self.y):
             print("%4s" % hex(j + 1).split('x')[-1].upper(), end="")
@@ -214,6 +231,9 @@ class TableFields(object):
               ' remaining ' + Colors.OKGREEN + 'green ' + Colors.ENDC + 'walls: ' + str(self.player2.remainingGreenWalls))
 
     def init_game_table(self):
+        """
+        Funkcija koja sluzi za unos osnovih parametara i kreiranje matrice polja
+        """
         matrix = []
 
         x = input_and_validate_pre_game_params(minMatrixDimensionX, maxMatrixDimensionX, matrixDimensionX)

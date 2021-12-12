@@ -18,6 +18,9 @@ class Figure(object):
             ('{} = {}'.format(item, self.__dict__[item]) for item in self.__dict__))
 
     def determine_direction(self, x, y):
+        """
+        Funkcija koja odredjuje pravac kretanja figure
+        """
         diff_x = x - self.positionX
         diff_y = y - self.positionY
         if diff_x == 0:
@@ -60,6 +63,9 @@ class Figure(object):
             return "error"
 
     def is_occupied(self, x, y, obj):
+        """
+        Funkcija koja proverava da li je polje zauzeto
+        """
         if self.positionX == x and self.positionY == y:
             return -1
         elif obj.player1.figure2.positionX == x and obj.player1.figure2.positionY == y:
@@ -72,7 +78,9 @@ class Figure(object):
             return 1
 
     def move(self, x, y, obj):
-        # treba uslov za opseg da ne izlazi van
+        """
+        Funkcija koja uz validaciju pomera figuru
+        """
         direction = self.determine_direction(x, y)
         is_filed_occupied = self.is_occupied(x, y, obj)
         if is_filed_occupied == 1:

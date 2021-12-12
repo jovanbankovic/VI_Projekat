@@ -3,6 +3,9 @@ from Colors import Colors
 
 
 def define_first_player():
+    """
+    Funkcija koja odredjuje prvog igraca
+    """
     print(Colors.OKBLUE + 'Choose the first player.' + Colors.ENDC)
     print('Type ' + Colors.OKBLUE + 'Me' + Colors.ENDC + ' if you want to go first.')
     print('Type ' + Colors.OKBLUE + 'Computer' + Colors.ENDC + ' if you want computer to play first.')
@@ -33,6 +36,9 @@ class Player(object):
             ('{} = {}'.format(item, self.__dict__[item]) for item in self.__dict__))
 
     def move_figure(self, obj):
+        """
+        Funkcija koja omogucava unos parametara za pomeraj figure i poziva funkciju za pomeraj iz Figure klase
+        """
         print()
         figure = input(Colors.OKBLUE + "Choose figure 1 or 2: " + Colors.ENDC)
         try:

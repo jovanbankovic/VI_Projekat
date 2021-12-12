@@ -14,11 +14,17 @@ class Wall(object):
             ('{} = {}'.format(item, self.__dict__[item]) for item in self.__dict__))
 
     def make_wall(self, wall_type, position):
+        """
+        Funkcija koja kreira zid i postavlja parametre
+        """
         self.wall_type = wall_type
         self.position = position
         return self
 
     def init_wall(self, obj, player):
+        """
+        Funkcija koja omogucava unos pozicija gde ce se nalaziti zid i postavlja ga uz validaciju
+        """
         inp = input("Select whether you want to set the blue or green wall by typing "
                     + Colors.OKBLUE + "blue" + Colors.ENDC + " or " + Colors.OKGREEN + "green" + Colors.ENDC + ": ")\
             .lower()
