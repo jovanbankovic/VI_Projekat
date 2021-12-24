@@ -65,12 +65,20 @@ class Wall(object):
 
         return new_table_fields
 
-    def findPossibleMoves(self, obj, current_position, previous_position):
-        #nalazi sve moguce poteze ki se ne vracaju u prev. pos
-        #vraca listu sledecih mogucih position-a
-        return
+    def findPossibleMoves(self, obj, current_positionX, current_postionY, previous_position):
+        list_of_possible_moves = []
+        moves = ['levo','desno','gore','dole','dijagonalaGore_levo','dijagonalaGore_desno',
+                         'dijagonalaDole_levo','dijagonalaDole_desno']
 
-    def calculate_closed_path_to_starting_positions(self, starting_position_x, starting_position_y, matrix, currentPos, previousPos):
+        for move in moves:
+            value = obj.player1.figure1.isValidMove(current_positionX, current_postionY, obj, move)
+            if value[0]:
+                # proveriti da li postoji potez u prethodni potezi pre dodavanja
+                list_of_possible_moves.append(value[1])
+
+        return list_of_possible_moves
+
+    def calculate_closed_path_to_starting_positions(self, starting_position_x, starting_position_y, obj, currentPos, previousPos):
         """
         if startpos
             return true
@@ -82,6 +90,21 @@ class Wall(object):
             finded = finded or calculate_closed_path_to_start_position(starting_position_x, starting_position_y, playMove(matrix, move), move, currentPosition)
         return finded
         """
+        if currentPos == (starting_position_x, starting_position_y):
+            return True
+
+        possibileMoves = self.findPossibleMoves(obj, currentPos[0], currentPos[1], previousPos)
+        if len(possibileMoves) == 0:
+            return False
+
+        find = False
+        for move in possibileMoves:
+            find = find or self.calculate_closed_path_to_start_position(starting_position_x, starting_position_y,
+                                                                        self.playMove(obj, move, 'player1', 'figure1'),
+                                                                        move, currentPos)
+        return find
+
+
 
     def init_wall(self, obj, player):
         """
@@ -119,7 +142,9 @@ class Wall(object):
                         return -1
                     else:
                         player.remainingBlueWalls = player.remainingBlueWalls - 1
-                        self.calculate_closed_path_to_starting_positions(obj, pos)
+                        self.calculate_closed_path_to_starting_positions(obj.player2.figure1.startingPositionX,
+                                                                         obj.player2.figure1.startingPositionY, obj,
+                                                                         (obj.player1.figure1.positionX, obj.player1.figure1.positionY),())
                         obj.update_field_for_blue(x, y, y+1, wall)
                 else:
                     print(Colors.WARNING + "You don't have any more blue walls." + Colors.ENDC)
