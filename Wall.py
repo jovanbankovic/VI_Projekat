@@ -25,25 +25,23 @@ class Wall(object):
         self.position = position
         return self
 
-    def deep_copy_table(self, table, x, y):
+    def deep_copy_table(self, obj, x, y):
         w, h = y, x
         matrix = [[0 for x in range(w)] for y in range(h)]
         for i in range(x):
             for j in range(y):
-                matrix[i][j] = deepcopy(table[i][j])
-        return matrix
+                matrix[i][j] = deepcopy(obj.table_fields[i][j])
 
-    def playMove(self, obj, pos, player, figure):
         new_table_fields = TableFields()
-        field_copy = self.deep_copy_table(obj.table_fields, obj.x, obj.y)
 
-        player1 = Player(None,None,None,None,None)
-        new_player1 = player1.create_player(obj.player1.figure1.positionX,obj.player1.figure1.positionY,
-                                            obj.player1.figure2.positionX,obj.player1.figure2.positionY,
-                                            obj.player1.figure1.startingPositionX,obj.player1.figure1.startingPositionY,
-                                            obj.player1.figure2.startingPositionX,obj.player1.figure2.startingPositionY
+        player1 = Player(None, None, None, None, None)
+        new_player1 = player1.create_player(obj.player1.figure1.positionX, obj.player1.figure1.positionY,
+                                            obj.player1.figure2.positionX, obj.player1.figure2.positionY,
+                                            obj.player1.figure1.startingPositionX,
+                                            obj.player1.figure1.startingPositionY,
+                                            obj.player1.figure2.startingPositionX, obj.player1.figure2.startingPositionY
                                             )
-        player2 = Player(None,None,None,None,None)
+        player2 = Player(None, None, None, None, None)
         new_player2 = player2.create_player(obj.player2.figure1.positionX, obj.player2.figure1.positionY,
                                             obj.player2.figure2.positionX, obj.player2.figure2.positionY,
                                             obj.player2.figure1.startingPositionX,
@@ -51,24 +49,27 @@ class Wall(object):
                                             obj.player2.figure2.startingPositionX,
                                             obj.player2.figure2.startingPositionY
                                             )
-        copy = new_table_fields.create_game_table(field_copy, obj.x, obj.y, obj.k, new_player1, new_player2)
+        copy = new_table_fields.create_game_table(matrix, obj.x, obj.y, obj.k, new_player1, new_player2)
+        return copy
+
+    def playMove(self, obj, pos, player, figure):
 
         if player == 'player1':
             if figure == 'figure1':
-                copy.player1.figure1.positionX = pos[0]
-                copy.player1.figure1.positionY = pos[1]
+                obj.player1.figure1.positionX = pos[0]
+                obj.player1.figure1.positionY = pos[1]
             elif figure == 'figure2':
-                copy.player1.figure2.positionX = pos[0]
-                copy.player1.figure2.positionY = pos[1]
+                obj.player1.figure2.positionX = pos[0]
+                obj.player1.figure2.positionY = pos[1]
         elif player == 'player2':
             if figure == 'figure1':
-                copy.player2.figure1.positionX = pos[0]
-                copy.player2.figure1.positionY = pos[1]
+                obj.player2.figure1.positionX = pos[0]
+                obj.player2.figure1.positionY = pos[1]
             elif figure == 'figure2':
-                copy.player2.figure2.positionX = pos[0]
-                copy.player2.figure2.positionY = pos[1]
+                obj.player2.figure2.positionX = pos[0]
+                obj.player2.figure2.positionY = pos[1]
 
-        return copy
+        return obj
 
     def findPossibleMoves(self, obj, current_positionX, current_postionY, previous_position):
         list_of_possible_moves = []
@@ -150,9 +151,10 @@ class Wall(object):
                         return -1
                     else:
                         player.remainingBlueWalls = player.remainingBlueWalls - 1
-                        self.calculate_closed_path_to_starting_positions(obj.player2.figure1.startingPositionX,
-                                                                         obj.player2.figure1.startingPositionY, obj,
-                                                                         (obj.player1.figure1.positionX, obj.player1.figure1.positionY),())
+                        obj2 = self.deep_copy_table(obj,obj.x, obj.y)
+                        self.calculate_closed_path_to_starting_positions(obj2.player2.figure1.startingPositionX,
+                                                                         obj2.player2.figure1.startingPositionY, obj2,
+                                                                         (obj2.player1.figure1.positionX, obj2.player1.figure1.positionY),())
                         obj.update_field_for_blue(x, y, y+1, wall)
                 else:
                     print(Colors.WARNING + "You don't have any more blue walls." + Colors.ENDC)
