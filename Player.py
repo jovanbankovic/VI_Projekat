@@ -26,10 +26,17 @@ class Player(object):
     remainingGreenWalls = None
 
     def __init__(self, first_figure_pos_x, first_figure_pos_y, second_figure_pos_x, second_figure_pos_y, remaining_walls):
-        self.figure1 = Figure(first_figure_pos_x, first_figure_pos_y)
-        self.figure2 = Figure(second_figure_pos_x, second_figure_pos_y)
+        self.figure1 = Figure(first_figure_pos_x, first_figure_pos_y, first_figure_pos_x, first_figure_pos_y)
+        self.figure2 = Figure(second_figure_pos_x, second_figure_pos_y, first_figure_pos_x, first_figure_pos_y)
         self.remainingBlueWalls = remaining_walls
         self.remainingGreenWalls = remaining_walls
+
+    def create_player(self, first_figure_pos_x, first_figure_pos_y,start_figure1_pos_x, start_figure1_pos_y,
+                      second_figure_pos_x, second_figure_pos_y, start_figure2_pos_x, start_figure2_pos_y):
+        self.figure1 = Figure(first_figure_pos_x, first_figure_pos_y,start_figure1_pos_x, start_figure1_pos_y)
+        self.figure2 = Figure(second_figure_pos_x, second_figure_pos_y,start_figure2_pos_x, start_figure2_pos_y)
+
+        return self
 
     def __str__(self):
         return str(self.__class__) + '\n' + '\n'.join(

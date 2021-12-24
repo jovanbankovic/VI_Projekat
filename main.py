@@ -1,8 +1,9 @@
 from TableFields import TableFields
 from Wall import Wall
 from Player import define_first_player
-
+import sys
 if __name__ == '__main__':
+
     first_player_choice = define_first_player()
 
     obj = TableFields()

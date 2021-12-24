@@ -49,6 +49,7 @@ class Field(object):
     wallDown: {}
     wallLeft: {}
     wallRight: {}
+    visited = False
 
     def __init__(self, i, j):
         self.index = (i, j)
@@ -64,6 +65,7 @@ class Field(object):
         self.wallRight = {
             "type": ''
         }
+        self.visited = False
 
     def set_field(self, wallUp, wallDown, wallLeft, wallRight):
         """
@@ -104,8 +106,7 @@ class TableFields(object):
         self.k = k
         self.player1 = player1
         self.player2 = player2
-        table_fields = TableFields()
-        return table_fields
+        return self
 
     def update_field_for_blue(self, x, y, k, wall):
         """

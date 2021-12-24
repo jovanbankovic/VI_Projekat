@@ -36,34 +36,39 @@ class Wall(object):
     def playMove(self, obj, pos, player, figure):
         new_table_fields = TableFields()
         field_copy = self.deep_copy_table(obj.table_fields, obj.x, obj.y)
-        new_player1 = Player(obj.player1.first_figure_pos_x,
-                             obj.player1.first_figure_pos_y,
-                             obj.player1.second_figure_pos_x,
-                             obj.player1.second_figure_pos_y,
-                             obj.player1.remaining_wals)
-        new_player2 = Player(obj.player2.first_figure_pos_x,
-                             obj.player2.first_figure_pos_y,
-                             obj.player2.second_figure_pos_x,
-                             obj.player2.second_figure_pos_y,
-                             obj.player2.remaining_wals)
-        new_table_fields.create_game_table(field_copy, obj.x, obj.y, obj.k, new_player1, new_player2)
+
+        player1 = Player(None,None,None,None,None)
+        new_player1 = player1.create_player(obj.player1.figure1.positionX,obj.player1.figure1.positionY,
+                                            obj.player1.figure2.positionX,obj.player1.figure2.positionY,
+                                            obj.player1.figure1.startingPositionX,obj.player1.figure1.startingPositionY,
+                                            obj.player1.figure2.startingPositionX,obj.player1.figure2.startingPositionY
+                                            )
+        player2 = Player(None,None,None,None,None)
+        new_player2 = player2.create_player(obj.player2.figure1.positionX, obj.player2.figure1.positionY,
+                                            obj.player2.figure2.positionX, obj.player2.figure2.positionY,
+                                            obj.player2.figure1.startingPositionX,
+                                            obj.player2.figure1.startingPositionY,
+                                            obj.player2.figure2.startingPositionX,
+                                            obj.player2.figure2.startingPositionY
+                                            )
+        copy = new_table_fields.create_game_table(field_copy, obj.x, obj.y, obj.k, new_player1, new_player2)
 
         if player == 'player1':
             if figure == 'figure1':
-                new_table_fields.player1.figure1.positionX = pos[0]
-                new_table_fields.player1.figure1.positionY = pos[1]
+                copy.player1.figure1.positionX = pos[0]
+                copy.player1.figure1.positionY = pos[1]
             elif figure == 'figure2':
-                new_table_fields.player1.figure2.positionX = pos[0]
-                new_table_fields.player1.figure2.positionY = pos[1]
+                copy.player1.figure2.positionX = pos[0]
+                copy.player1.figure2.positionY = pos[1]
         elif player == 'player2':
             if figure == 'figure1':
-                new_table_fields.player2.figure1.positionX = pos[0]
-                new_table_fields.player2.figure1.positionY = pos[1]
+                copy.player2.figure1.positionX = pos[0]
+                copy.player2.figure1.positionY = pos[1]
             elif figure == 'figure2':
-                new_table_fields.player2.figure2.positionX = pos[0]
-                new_table_fields.player2.figure2.positionY = pos[1]
+                copy.player2.figure2.positionX = pos[0]
+                copy.player2.figure2.positionY = pos[1]
 
-        return new_table_fields
+        return copy
 
     def findPossibleMoves(self, obj, current_positionX, current_postionY, previous_position):
         list_of_possible_moves = []
@@ -74,7 +79,9 @@ class Wall(object):
             value = obj.player1.figure1.isValidMove(current_positionX, current_postionY, obj, move)
             if value[0]:
                 # proveriti da li postoji potez u prethodni potezi pre dodavanja
-                list_of_possible_moves.append(value[1])
+                if obj.table_fields[value[1][0]][value[1][1]].visited == False:
+                    obj.table_fields[current_positionX][current_postionY].visited = True
+                    list_of_possible_moves.append(value[1])
 
         return list_of_possible_moves
 
@@ -90,7 +97,8 @@ class Wall(object):
             finded = finded or calculate_closed_path_to_start_position(starting_position_x, starting_position_y, playMove(matrix, move), move, currentPosition)
         return finded
         """
-        if currentPos == (starting_position_x, starting_position_y):
+
+        if currentPos[0] == starting_position_x and currentPos[1] == starting_position_y:
             return True
 
         possibileMoves = self.findPossibleMoves(obj, currentPos[0], currentPos[1], previousPos)
@@ -99,7 +107,7 @@ class Wall(object):
 
         find = False
         for move in possibileMoves:
-            find = find or self.calculate_closed_path_to_start_position(starting_position_x, starting_position_y,
+            find = find or self.calculate_closed_path_to_starting_positions(starting_position_x, starting_position_y,
                                                                         self.playMove(obj, move, 'player1', 'figure1'),
                                                                         move, currentPos)
         return find
