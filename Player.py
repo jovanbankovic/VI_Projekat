@@ -27,7 +27,7 @@ class Player(object):
 
     def __init__(self, first_figure_pos_x, first_figure_pos_y, second_figure_pos_x, second_figure_pos_y, remaining_walls):
         self.figure1 = Figure(first_figure_pos_x, first_figure_pos_y, first_figure_pos_x, first_figure_pos_y)
-        self.figure2 = Figure(second_figure_pos_x, second_figure_pos_y, first_figure_pos_x, first_figure_pos_y)
+        self.figure2 = Figure(second_figure_pos_x, second_figure_pos_y, second_figure_pos_x, second_figure_pos_y)
         self.remainingBlueWalls = remaining_walls
         self.remainingGreenWalls = remaining_walls
 
