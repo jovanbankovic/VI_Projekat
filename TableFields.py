@@ -142,6 +142,19 @@ class TableFields(object):
             or (self.player2.figure2.positionX == self.player1.figure1.startingPositionX and self.player2.figure2.positionY == self.player1.figure1.startingPositionY)
             or (self.player2.figure2.positionX == self.player1.figure2.startingPositionX and self.player2.figure2.positionY == self.player1.figure2.startingPositionY)):
             return 2
+        else:
+            return 0
+
+    def announce_winner(self, winner):
+        """
+        Funkcija koja obavestava ko je pobednik igre
+        """
+        if winner == 1:
+            print(Colors.OKBLUE + 'PLAYER 1 WON THE GAME.' + Colors.ENDC)
+        elif winner == 2:
+            print(Colors.OKBLUE + 'PLAYER 2 WON THE GAME.' + Colors.ENDC)
+        else:
+            print(Colors.OKBLUE + 'There is no winner.' + Colors.ENDC)
 
     def print_game_table(self):
         """
@@ -167,15 +180,6 @@ class TableFields(object):
                             print("%1s" % " ✘", end=" ║")
                         else:
                             print("%1s" % " ✘", end=" │")
-                elif (self.player1.figure1.startingPositionX == i and self.player1.figure1.startingPositionY == j)\
-                        or (self.player1.figure2.startingPositionX == i and self.player1.figure2.startingPositionY == j):
-                    if j == self.y - 1:
-                        print("%1s" % Colors.FAIL + " ◆" + Colors.ENDC, end="")
-                    else:
-                        if self.table_fields[i][j].wallRight["type"] == "green":
-                            print("%1s" % Colors.FAIL + " ◆" + Colors.ENDC, end=" ║")
-                        else:
-                            print("%1s" % Colors.FAIL + " ◆" + Colors.ENDC, end=" │")
                 elif (self.player2.figure1.positionX == i and self.player2.figure1.positionY == j) \
                         or (self.player2.figure2.positionX == i and self.player2.figure2.positionY == j):
                     if j == self.y - 1:
@@ -185,6 +189,15 @@ class TableFields(object):
                             print("%1s" % " ⚫", end=" ║")
                         else:
                             print("%1s" % " ⚫", end=" │")
+                elif (self.player1.figure1.startingPositionX == i and self.player1.figure1.startingPositionY == j)\
+                        or (self.player1.figure2.startingPositionX == i and self.player1.figure2.startingPositionY == j):
+                    if j == self.y - 1:
+                        print("%1s" % Colors.FAIL + " ◆" + Colors.ENDC, end="")
+                    else:
+                        if self.table_fields[i][j].wallRight["type"] == "green":
+                            print("%1s" % Colors.FAIL + " ◆" + Colors.ENDC, end=" ║")
+                        else:
+                            print("%1s" % Colors.FAIL + " ◆" + Colors.ENDC, end=" │")
                 elif (self.player2.figure1.startingPositionX == i and self.player2.figure1.startingPositionY == j)\
                         or (self.player2.figure2.startingPositionX == i and self.player2.figure2.startingPositionY == j):
                     if j == self.y - 1:

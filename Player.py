@@ -4,7 +4,7 @@ from Colors import Colors
 
 def define_first_player():
     """
-    Funkcija koja odredjuje prvog igraca
+    Funkcija koja odredjuje prvog igraca izmedju igraca i kompjutera
     """
     print(Colors.OKBLUE + 'Choose the first player.' + Colors.ENDC)
     print('Type ' + Colors.OKBLUE + 'Me' + Colors.ENDC + ' if you want to go first.')
@@ -17,6 +17,63 @@ def define_first_player():
     else:
         print(Colors.FAIL + 'Invalid choice of first player. Try again. ' + Colors.ENDC)
         return define_first_player()
+
+
+def define_first_turn_between_players():
+    """
+    Funkcija koja odredjuje prvog izmedju dva igraca
+    """
+    print(Colors.OKBLUE + 'Choose the first player.' + Colors.ENDC)
+    print('Type ' + Colors.OKBLUE + 'Player1' + Colors.ENDC + ' if you want Player1 to go first.')
+    print('Type ' + Colors.OKBLUE + 'Player2' + Colors.ENDC + ' if you want Player2 to go first.')
+    choice = input('> ').lower()
+    if choice == 'player1':
+        return 1
+    elif choice == 'player2':
+        return 2
+    else:
+        print(Colors.FAIL + 'Invalid choice of first player. Try again. ' + Colors.ENDC)
+        return define_first_turn_between_players()
+
+
+def switch_turns(turn, obj, wall_obj):
+    """
+    Funkcija koja poziva funkcije za odigravanje partije u zavisnosti od redosleda
+    """
+    match turn:
+        case 1:
+            print(Colors.FAIL + 'Player 1 is playing...' + Colors.ENDC)
+            wall_obj.init_wall(obj, obj.player1)
+            obj.print_game_table()
+            obj.player1.move_figure(obj)
+            obj.print_game_table()
+            return 2
+        case 2:
+            print(Colors.FAIL + 'Player 2 is playing...' + Colors.ENDC)
+            wall_obj.init_wall(obj, obj.player2)
+            obj.print_game_table()
+            obj.player2.move_figure(obj)
+            obj.print_game_table()
+            return 1
+
+
+def play_turn(obj, wall_obj, first_player_choice):
+    """
+    Fukcija koja proverava zavrsetak igre, obavestava o pobedniku i poziva fuknkciju za odigravanje poteza ukoliko igra nije zavrsena
+    """
+    is_game_over = obj.is_game_over()
+    players_turn = None
+    if is_game_over == 1:
+        obj.announce_winner(is_game_over)
+    elif is_game_over == 2:
+        obj.announce_winner(is_game_over)
+    elif is_game_over != 1 or is_game_over != 2:
+        print()
+        if players_turn is None:
+            players_turn = switch_turns(first_player_choice, obj, wall_obj)
+        else:
+            players_turn = switch_turns(players_turn, obj, wall_obj)
+        play_turn(obj, wall_obj, players_turn)
 
 
 class Player(object):
@@ -57,6 +114,7 @@ class Player(object):
 
         if (0 < x < obj.x) or (0 < y < obj.y):
             if figure == "1":
+
                 return_val = self.figure1.move(x, y, obj)
                 if return_val == -1:
                     return self.move_figure(obj)

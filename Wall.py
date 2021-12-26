@@ -26,6 +26,9 @@ class Wall(object):
         return self
 
     def deep_copy_table(self, obj, x, y):
+        """
+        Funkcija koja pravi kopiju polja koriscenjem biblioteke copy. Povratna vrednost funkcije je objekat TableFields
+        """
         w, h = y, x
         matrix = [[0 for x in range(w)] for y in range(h)]
         for i in range(x):
@@ -51,7 +54,9 @@ class Wall(object):
         return copy
 
     def playMove(self, obj, pos, player, figure):
-
+        """
+        Funkcija koja u zavinosti od igraca i figure postavlja X i Y koordinatu figure
+        """
         if player == 'player1':
             if figure == 'figure1':
                 obj.player1.figure1.positionX = pos[0]
@@ -70,6 +75,11 @@ class Wall(object):
         return obj
 
     def findPossibleMoves(self, obj, current_positionX, current_postionY, obj_player_figure):
+        """
+        Funkcija koja vraca listu mogucih poteza za svako polje. Za svaku od 8 mogucnosti, ispitujemo da li je moguce
+        kretanje i ukoliko jeste i naredno polje nema Visited flag ubacujemo ga u listu mogucih poteza, dok parametar
+        Visited u trenutnom polju postavljamo na True
+        """
         list_of_possible_moves = []
         moves = ['levo','desno','gore','dole','dijagonalaGore_levo','dijagonalaGore_desno',
                          'dijagonalaDole_levo','dijagonalaDole_desno']
@@ -86,49 +96,57 @@ class Wall(object):
 
 
     def check_if_there_are_paths(self,obj):
+        """
+        Funkcija koja za oba igraca i njegove figure poziva funkcija za racunanje da li postoji put do pocetne pozicije
+        """
+
         #make 4 copies of obj
         obj1 = self.deep_copy_table(obj, obj.x, obj.y)
         obj2 = self.deep_copy_table(obj, obj.x, obj.y)
         obj3 = self.deep_copy_table(obj, obj.x, obj.y)
         obj4 = self.deep_copy_table(obj, obj.x, obj.y)
 
-
-
         # first check for player 1 figure 1
-        player1_figure_1 = self.calculate_closed_path_to_starting_positions(obj1.player2.figure1.startingPositionX,
-                                                             obj1.player2.figure1.startingPositionY, obj1,
-                                                             (obj1.player1.figure1.positionX, obj1.player1.figure1.positionY),
-                                                              'player1', 'figure1',obj1.player1.figure1)
+        player1_figure_1 = self.calculate_closed_path_to_starting_positions(
+            obj1.player2.figure1.startingPositionX,
+            obj1.player2.figure1.startingPositionY,
+            obj1,
+            (obj1.player1.figure1.positionX, obj1.player1.figure1.positionY),
+            'player1', 'figure1',obj1.player1.figure1)
+
         if not player1_figure_1:
             return False
 
         # second check for player 1 figure 2
-        player1_figure_2 = self.calculate_closed_path_to_starting_positions(obj2.player2.figure2.startingPositionX,
-                                                                            obj2.player2.figure2.startingPositionY,
-                                                                            obj2,
-                                                                            (obj2.player1.figure1.positionX,
-                                                                             obj2.player1.figure1.positionY),
-                                                                            'player1', 'figure1',obj2.player1.figure1)
+        player1_figure_2 = self.calculate_closed_path_to_starting_positions(
+            obj2.player2.figure2.startingPositionX,
+            obj2.player2.figure2.startingPositionY,
+            obj2,
+            (obj2.player1.figure1.positionX, obj2.player1.figure1.positionY),
+            'player1', 'figure1', obj2.player1.figure1)
+
         if not player1_figure_2:
             return False
 
         # second check for player 2 figure 1
-        player2_figure_1 = self.calculate_closed_path_to_starting_positions(obj3.player1.figure1.startingPositionX,
-                                                                            obj3.player1.figure1.startingPositionY,
-                                                                            obj3,
-                                                                            (obj3.player2.figure1.positionX,
-                                                                             obj3.player2.figure1.positionY),
-                                                                            'player2', 'figure1', obj3.player2.figure1)
+        player2_figure_1 = self.calculate_closed_path_to_starting_positions(
+            obj3.player1.figure1.startingPositionX,
+            obj3.player1.figure1.startingPositionY,
+            obj3,
+            (obj3.player2.figure1.positionX, obj3.player2.figure1.positionY),
+            'player2', 'figure1', obj3.player2.figure1)
+
         if not player2_figure_1:
             return False
 
         # second check for player 2 figure 2
-        player2_figure_2 = self.calculate_closed_path_to_starting_positions(obj4.player1.figure2.startingPositionX,
-                                                                            obj4.player1.figure2.startingPositionY,
-                                                                            obj4,
-                                                                            (obj4.player2.figure1.positionX,
-                                                                             obj4.player2.figure1.positionY),
-                                                                            'player2', 'figure1', obj4.player2.figure1)
+        player2_figure_2 = self.calculate_closed_path_to_starting_positions(
+            obj4.player1.figure2.startingPositionX,
+            obj4.player1.figure2.startingPositionY,
+            obj4,
+            (obj4.player2.figure1.positionX, obj4.player2.figure1.positionY),
+            'player2', 'figure1', obj4.player2.figure1)
+
         if not player2_figure_2:
             return False
 
@@ -136,23 +154,12 @@ class Wall(object):
         return True
 
 
-
-
-
-
-
     def calculate_closed_path_to_starting_positions(self, starting_position_x, starting_position_y, obj,
                                                     currentPos, player, figure, obj_player_figure):
         """
-        if startpos
-            return true
-        posMs = findPossMovies(matrix, currentPos, previousPos)
-        if !posMs or posMs.length == 0
-            return false
-        bool fined = false
-        foreach move in posMs
-            finded = finded or calculate_closed_path_to_start_position(starting_position_x, starting_position_y, playMove(matrix, move), move, currentPosition)
-        return finded
+        Funkcija koja racuna da li postoji put do pocetnih polja. Iskoristili smo rekurziju da simuliramo stablo, tako sto
+        za svako polje racunamo moguce poteze. Za svaki od mogucih poteza rekurzivnim pozivom funkcije izvrsavamo isti algoritam sve
+        dok ne nadje ili ne nadje put do pocetnog polja
         """
 
         if currentPos[0] == starting_position_x and currentPos[1] == starting_position_y:
@@ -214,8 +221,8 @@ class Wall(object):
                             player.remainingBlueWalls = player.remainingBlueWalls - 1
                             obj.update_field_for_blue(x, y, y+1, wall)
                         else:
-                            print("No paths to starting postions")
-                            return -1
+                            print(Colors.WARNING + "You can't place wall there, because you are blocking the path to the starting position." + Colors.ENDC)
+                            self.init_wall(obj, player)
                 else:
                     print(Colors.WARNING + "You don't have any more blue walls." + Colors.ENDC)
             elif inp == "green":
@@ -238,8 +245,8 @@ class Wall(object):
                             player.remainingGreenWalls = player.remainingGreenWalls - 1
                             obj.update_field_for_green(x, y, x+1, wall)
                         else:
-                            print("No paths to starting postions")
-                            return -1
+                            print(Colors.WARNING + "You can't place wall there, because you are blocking the path to the starting position." + Colors.ENDC)
+                            self.init_wall(obj, player)
                 else:
                     print(Colors.WARNING + "You don't have any more green walls." + Colors.ENDC)
             else:
