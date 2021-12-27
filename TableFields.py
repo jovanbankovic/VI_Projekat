@@ -76,7 +76,7 @@ def create_list_of_all_possible_situations(obj, move, wall_pos):
     """
     Funkcija koja pravi listu svih mogucih situacija na tabli korisiscenjem funkcije koja kreira novu situaciju na tabli
     """
-    list_all_pos_situations = []
+    list_all_possible_situations = []
     return
 
 def generate_matrix_for_visible(x, y):
@@ -153,20 +153,27 @@ class TableFields(object):
         """
         Funkcija koja postavlja plavi zid na zadatim pozicijama u matrici polja
         """
-        self.table_fields[x][y].wallDown["type"] = wall.wall_type
-        self.table_fields[x][k].wallDown["type"] = wall.wall_type
-        self.table_fields[x+1][y].wallUp["type"] = wall.wall_type
-        self.table_fields[x+1][k].wallUp["type"] = wall.wall_type
-
+        if 0 < x < self.x and 0 < y < self.y:
+            self.table_fields[x][y].wallDown["type"] = wall.wall_type
+            self.table_fields[x][k].wallDown["type"] = wall.wall_type
+            self.table_fields[x+1][y].wallUp["type"] = wall.wall_type
+            self.table_fields[x+1][k].wallUp["type"] = wall.wall_type
+            return True
+        else:
+            return False
 
     def update_field_for_green(self, x, y, k, wall):
         """
         Funkcija koja postavlja zeleni zid na zadatim pozicijama u matrici polja
         """
-        self.table_fields[x][y].wallRight["type"] = wall.wall_type
-        self.table_fields[k][y].wallRight["type"] = wall.wall_type
-        self.table_fields[x][y+1].wallLeft["type"] = wall.wall_type
-        self.table_fields[k][k+1].wallLeft["type"] = wall.wall_type
+        if 0 < x < self.y and 0 < y < self.y:
+            self.table_fields[x][y].wallRight["type"] = wall.wall_type
+            self.table_fields[k][y].wallRight["type"] = wall.wall_type
+            self.table_fields[x][y+1].wallLeft["type"] = wall.wall_type
+            self.table_fields[k][k+1].wallLeft["type"] = wall.wall_type
+            return True
+        else:
+            return False
 
 
     def is_game_over(self):
@@ -253,7 +260,7 @@ class TableFields(object):
                         print("%1s" % "  ", end="")
                     else:
                         if self.table_fields[i][j].wallRight["type"] == "green":
-                            print("%1s" % " ", end=" ║")
+                            print("%1s" % " ", end="  ║")
                         else:
                             print("%1s" % " ", end="  │")
 

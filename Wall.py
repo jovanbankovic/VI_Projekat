@@ -199,13 +199,17 @@ class Wall(object):
                     else:
                         # we make copy of whole tableField object and add new wall than we check if it has path to start position
                         copiedMatrix = deep_copy_table(obj, obj.x, obj.y)
-                        copiedMatrix.update_field_for_blue(x, y, y+1, wall)
-                        has_path = self.check_if_there_are_paths(copiedMatrix)
-                        if has_path:
-                            player.remainingBlueWalls = player.remainingBlueWalls - 1
-                            obj.update_field_for_blue(x, y, y+1, wall)
+                        returnParam = copiedMatrix.update_field_for_blue(x, y, y+1, wall)
+                        if returnParam:
+                            has_path = self.check_if_there_are_paths(copiedMatrix)
+                            if has_path:
+                                player.remainingBlueWalls = player.remainingBlueWalls - 1
+                                obj.update_field_for_blue(x, y, y+1, wall)
+                            else:
+                                print(Colors.WARNING + "You can't place wall there, because you are blocking the path to the starting position." + Colors.ENDC)
+                                self.init_wall(obj, player)
                         else:
-                            print(Colors.WARNING + "You can't place wall there, because you are blocking the path to the starting position." + Colors.ENDC)
+                            print(Colors.FAIL + 'Entered params are invalid. Please try again.' + Colors.ENDC)
                             self.init_wall(obj, player)
                 else:
                     print(Colors.WARNING + "You don't have any more blue walls." + Colors.ENDC)
@@ -223,13 +227,18 @@ class Wall(object):
                         return -1
                     else:
                         copiedMatrix = deep_copy_table(obj, obj.x, obj.y)
-                        copiedMatrix.update_field_for_green(x, y, x+1, wall)
-                        has_path = self.check_if_there_are_paths(copiedMatrix)
-                        if has_path:
-                            player.remainingGreenWalls = player.remainingGreenWalls - 1
-                            obj.update_field_for_green(x, y, x+1, wall)
+                        returnParam = copiedMatrix.update_field_for_green(x, y, x+1, wall)
+                        if returnParam:
+                            has_path = self.check_if_there_are_paths(copiedMatrix)
+                            if has_path:
+                                player.remainingGreenWalls = player.remainingGreenWalls - 1
+                                obj.update_field_for_green(x, y, x + 1, wall)
+                            else:
+                                print(
+                                    Colors.WARNING + "You can't place wall there, because you are blocking the path to the starting position." + Colors.ENDC)
+                                self.init_wall(obj, player)
                         else:
-                            print(Colors.WARNING + "You can't place wall there, because you are blocking the path to the starting position." + Colors.ENDC)
+                            print(Colors.FAIL + 'Entered params are invalid. Please try again.' + Colors.ENDC)
                             self.init_wall(obj, player)
                 else:
                     print(Colors.WARNING + "You don't have any more green walls." + Colors.ENDC)
