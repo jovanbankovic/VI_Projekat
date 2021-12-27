@@ -22,7 +22,7 @@ class Wall(object):
         self.position = position
         return self
 
-    def playMove(self, obj, pos, player, figure):
+    def playMove(self, obj, pos, player, figure,visibleParamsMatrix):
         """
         Funkcija koja u zavinosti od igraca i figure postavlja X i Y koordinatu figure
         """
@@ -43,9 +43,10 @@ class Wall(object):
                 obj.player2.figure2.positionX = pos[0]
                 obj.player2.figure2.positionY = pos[1]
 
+        visibleParamsMatrix[pos[0]][pos[1]] = 1
         return obj
 
-    def findPossibleMoves(self, obj, current_positionX, current_postionY, obj_player_figure, visibleParamsMatrix):
+    def findPossibleMoves(self, obj, current_positionX, current_postionY, player, figure, visibleParamsMatrix):
         """
         Funkcija koja vraca listu mogucih poteza za svako polje. Za svaku od 8 mogucnosti, ispitujemo da li je moguce
         kretanje i ukoliko jeste i naredno polje nema Visited flag ubacujemo ga u listu mogucih poteza, dok parametar
@@ -55,12 +56,22 @@ class Wall(object):
         moves = ['levo','desno','gore','dole','dijagonalaGore_levo','dijagonalaGore_desno',
                          'dijagonalaDole_levo','dijagonalaDole_desno']
 
+        if player == 'player1':
+            if figure == 'figure1':
+                player_figure = obj.player1.figure1
+            elif figure == 'figure2':
+                player_figure = obj.player1.figure2
+        elif player == 'player2':
+            if figure == 'figure1':
+                player_figure = obj.player2.figure1
+            elif figure == 'figure2':
+                player_figure = obj.player2.figure2
+
         for move in moves:
-            value = obj.player1.figure1.isValidMove(current_positionX, current_postionY, obj, move)
+            value = player_figure.isValidMove(current_positionX, current_postionY, obj, move)
             if value[0]:
                 # proveriti da li postoji potez u prethodni potezi pre dodavanja
                 if visibleParamsMatrix[value[1][0]][value[1][1]] == 0:
-                    visibleParamsMatrix[current_positionX][current_postionY] = 1
                     list_of_possible_moves.append(value[1])
 
         return list_of_possible_moves, visibleParamsMatrix
@@ -70,53 +81,51 @@ class Wall(object):
         """
         Funkcija koja za oba igraca i njegove figure poziva funkcija za racunanje da li postoji put do pocetne pozicije
         """
-
-        #make 4 copies of obj
-        obj1 = deep_copy_table(obj, obj.x, obj.y)
-        obj2 = deep_copy_table(obj, obj.x, obj.y)
-        obj3 = deep_copy_table(obj, obj.x, obj.y)
-        obj4 = deep_copy_table(obj, obj.x, obj.y)
+        visibleParamsMatrix1 = generate_matrix_for_visible(obj.x, obj.y)
+        visibleParamsMatrix2 = generate_matrix_for_visible(obj.x, obj.y)
+        visibleParamsMatrix3 = generate_matrix_for_visible(obj.x, obj.y)
+        visibleParamsMatrix4 = generate_matrix_for_visible(obj.x, obj.y)
 
         # first check for player 1 figure 1
         player1_figure_1 = self.calculate_closed_path_to_starting_positions(
-            obj1.player2.figure1.startingPositionX,
-            obj1.player2.figure1.startingPositionY,
-            obj1,
-            (obj1.player1.figure1.positionX, obj1.player1.figure1.positionY),
-            'player1', 'figure1',obj1.player1.figure1)
+            obj.player2.figure2.startingPositionX,
+            obj.player2.figure2.startingPositionY,
+            obj,
+            (obj.player1.figure1.positionX, obj.player1.figure1.positionY),
+            'player1', 'figure1', visibleParamsMatrix1)
 
         if not player1_figure_1:
             return False
 
         # second check for player 1 figure 2
         player1_figure_2 = self.calculate_closed_path_to_starting_positions(
-            obj2.player2.figure2.startingPositionX,
-            obj2.player2.figure2.startingPositionY,
-            obj2,
-            (obj2.player1.figure1.positionX, obj2.player1.figure1.positionY),
-            'player1', 'figure1', obj2.player1.figure1)
+            obj.player2.figure1.startingPositionX,
+            obj.player2.figure1.startingPositionY,
+            obj,
+            (obj.player1.figure1.positionX, obj.player1.figure1.positionY),
+            'player1', 'figure1', visibleParamsMatrix2)
 
         if not player1_figure_2:
             return False
 
         # second check for player 2 figure 1
         player2_figure_1 = self.calculate_closed_path_to_starting_positions(
-            obj3.player1.figure1.startingPositionX,
-            obj3.player1.figure1.startingPositionY,
-            obj3,
-            (obj3.player2.figure1.positionX, obj3.player2.figure1.positionY),
-            'player2', 'figure1', obj3.player2.figure1)
+            obj.player1.figure1.startingPositionX,
+            obj.player1.figure1.startingPositionY,
+            obj,
+            (obj.player2.figure1.positionX, obj.player2.figure1.positionY),
+            'player2', 'figure1', visibleParamsMatrix3)
 
         if not player2_figure_1:
             return False
 
         # second check for player 2 figure 2
         player2_figure_2 = self.calculate_closed_path_to_starting_positions(
-            obj4.player1.figure2.startingPositionX,
-            obj4.player1.figure2.startingPositionY,
-            obj4,
-            (obj4.player2.figure1.positionX, obj4.player2.figure1.positionY),
-            'player2', 'figure1', obj4.player2.figure1)
+            obj.player1.figure2.startingPositionX,
+            obj.player1.figure2.startingPositionY,
+            obj,
+            (obj.player2.figure1.positionX, obj.player2.figure1.positionY),
+            'player2', 'figure1', visibleParamsMatrix4)
 
         if not player2_figure_2:
             return False
@@ -126,7 +135,7 @@ class Wall(object):
 
 
     def calculate_closed_path_to_starting_positions(self, starting_position_x, starting_position_y, obj,
-                                                    currentPos, player, figure, obj_player_figure, visibleParamsMatrix):
+                                                    currentPos, player, figure, visibleParamsMatrix):
         """
         Funkcija koja racuna da li postoji put do pocetnih polja. Iskoristili smo rekurziju da simuliramo stablo, tako sto
         za svako polje racunamo moguce poteze. Za svaki od mogucih poteza rekurzivnim pozivom funkcije izvrsavamo isti algoritam sve
@@ -136,15 +145,15 @@ class Wall(object):
         if currentPos[0] == starting_position_x and currentPos[1] == starting_position_y:
             return True
 
-        possibileMoves = self.findPossibleMoves(obj, currentPos[0], currentPos[1], obj_player_figure, visibleParamsMatrix)
+        possibileMoves = self.findPossibleMoves(obj, currentPos[0], currentPos[1], player, figure, visibleParamsMatrix)
         if len(possibileMoves[0]) == 0:
             return False
 
         find = False
         for move in possibileMoves[0]:
             find = find or self.calculate_closed_path_to_starting_positions(starting_position_x, starting_position_y,
-                                                                        self.playMove(obj, move, player, figure),
-                                                                        move, player, figure, obj_player_figure,
+                                                                        self.playMove(obj, move, player, figure, visibleParamsMatrix),
+                                                                        move, player, figure,
                                                                         possibileMoves[1])
         return find
 
@@ -189,12 +198,7 @@ class Wall(object):
                         copiedMatrix = deep_copy_table(obj, obj.x, obj.y)
                         visibleParamsMatrix = generate_matrix_for_visible(copiedMatrix.x, copiedMatrix.y)
                         copiedMatrix.update_field_for_blue(x, y, y+1, wall)
-                        has_path = self.calculate_closed_path_to_starting_positions(
-                            copiedMatrix.player2.figure1.startingPositionX,
-                            copiedMatrix.player2.figure1.startingPositionY,
-                            copiedMatrix,
-                            (copiedMatrix.player1.figure1.positionX, copiedMatrix.player1.figure1.positionY),
-                            'player1', 'figure1', copiedMatrix.player1.figure1, visibleParamsMatrix)
+                        has_path = self.check_if_there_are_paths(obj)
                         if has_path:
                             player.remainingBlueWalls = player.remainingBlueWalls - 1
                             obj.update_field_for_blue(x, y, y+1, wall)
