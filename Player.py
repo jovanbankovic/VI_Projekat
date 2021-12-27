@@ -114,7 +114,6 @@ class Player(object):
 
         if (0 < x < obj.x) or (0 < y < obj.y):
             if figure == "1":
-
                 return_val = self.figure1.move(x, y, obj)
                 if return_val == -1:
                     return self.move_figure(obj)

@@ -1,8 +1,5 @@
 from Colors import Colors
-from copy import copy, deepcopy
-
-from Player import Player
-from TableFields import TableFields
+from TableFields import deep_copy_table, generate_matrix_for_visible
 
 
 class Wall(object):
@@ -25,38 +22,12 @@ class Wall(object):
         self.position = position
         return self
 
-    def deep_copy_table(self, obj, x, y):
-        """
-        Funkcija koja pravi kopiju polja koriscenjem biblioteke copy. Povratna vrednost funkcije je objekat TableFields
-        """
-        w, h = y, x
-        matrix = [[0 for x in range(w)] for y in range(h)]
-        for i in range(x):
-            for j in range(y):
-                matrix[i][j] = deepcopy(obj.table_fields[i][j])
-
-        new_table_fields = TableFields()
-
-        player1 = Player(None, None, None, None, None)
-        new_player1 = player1.create_player(obj.player1.figure1.positionX, obj.player1.figure1.positionY,
-                                            obj.player1.figure1.startingPositionX,obj.player1.figure1.startingPositionY,
-                                            obj.player1.figure2.positionX, obj.player1.figure2.positionY,
-                                            obj.player1.figure2.startingPositionX, obj.player1.figure2.startingPositionY
-                                            )
-        player2 = Player(None, None, None, None, None)
-        new_player2 = player2.create_player(obj.player2.figure1.positionX, obj.player2.figure1.positionY,
-                                            obj.player2.figure1.startingPositionX,obj.player2.figure1.startingPositionY,
-                                            obj.player2.figure2.positionX, obj.player2.figure2.positionY,
-                                            obj.player2.figure2.startingPositionX,
-                                            obj.player2.figure2.startingPositionY
-                                            )
-        copy = new_table_fields.create_game_table(matrix, obj.x, obj.y, obj.k, new_player1, new_player2)
-        return copy
-
     def playMove(self, obj, pos, player, figure):
         """
         Funkcija koja u zavinosti od igraca i figure postavlja X i Y koordinatu figure
         """
+        obj = deep_copy_table(obj, obj.x, obj.y)
+
         if player == 'player1':
             if figure == 'figure1':
                 obj.player1.figure1.positionX = pos[0]
@@ -74,7 +45,7 @@ class Wall(object):
 
         return obj
 
-    def findPossibleMoves(self, obj, current_positionX, current_postionY, obj_player_figure):
+    def findPossibleMoves(self, obj, current_positionX, current_postionY, obj_player_figure, visibleParamsMatrix):
         """
         Funkcija koja vraca listu mogucih poteza za svako polje. Za svaku od 8 mogucnosti, ispitujemo da li je moguce
         kretanje i ukoliko jeste i naredno polje nema Visited flag ubacujemo ga u listu mogucih poteza, dok parametar
@@ -85,14 +56,14 @@ class Wall(object):
                          'dijagonalaDole_levo','dijagonalaDole_desno']
 
         for move in moves:
-            value = obj_player_figure.isValidMove(current_positionX, current_postionY, obj, move)
+            value = obj.player1.figure1.isValidMove(current_positionX, current_postionY, obj, move)
             if value[0]:
                 # proveriti da li postoji potez u prethodni potezi pre dodavanja
-                if obj.table_fields[value[1][0]][value[1][1]].visited == False:
-                    obj.table_fields[current_positionX][current_postionY].visited = True
+                if visibleParamsMatrix[value[1][0]][value[1][1]] == 0:
+                    visibleParamsMatrix[current_positionX][current_postionY] = 1
                     list_of_possible_moves.append(value[1])
 
-        return list_of_possible_moves
+        return list_of_possible_moves, visibleParamsMatrix
 
 
     def check_if_there_are_paths(self,obj):
@@ -101,10 +72,10 @@ class Wall(object):
         """
 
         #make 4 copies of obj
-        obj1 = self.deep_copy_table(obj, obj.x, obj.y)
-        obj2 = self.deep_copy_table(obj, obj.x, obj.y)
-        obj3 = self.deep_copy_table(obj, obj.x, obj.y)
-        obj4 = self.deep_copy_table(obj, obj.x, obj.y)
+        obj1 = deep_copy_table(obj, obj.x, obj.y)
+        obj2 = deep_copy_table(obj, obj.x, obj.y)
+        obj3 = deep_copy_table(obj, obj.x, obj.y)
+        obj4 = deep_copy_table(obj, obj.x, obj.y)
 
         # first check for player 1 figure 1
         player1_figure_1 = self.calculate_closed_path_to_starting_positions(
@@ -155,7 +126,7 @@ class Wall(object):
 
 
     def calculate_closed_path_to_starting_positions(self, starting_position_x, starting_position_y, obj,
-                                                    currentPos, player, figure, obj_player_figure):
+                                                    currentPos, player, figure, obj_player_figure, visibleParamsMatrix):
         """
         Funkcija koja racuna da li postoji put do pocetnih polja. Iskoristili smo rekurziju da simuliramo stablo, tako sto
         za svako polje racunamo moguce poteze. Za svaki od mogucih poteza rekurzivnim pozivom funkcije izvrsavamo isti algoritam sve
@@ -165,15 +136,16 @@ class Wall(object):
         if currentPos[0] == starting_position_x and currentPos[1] == starting_position_y:
             return True
 
-        possibileMoves = self.findPossibleMoves(obj, currentPos[0], currentPos[1], obj_player_figure)
-        if len(possibileMoves) == 0:
+        possibileMoves = self.findPossibleMoves(obj, currentPos[0], currentPos[1], obj_player_figure, visibleParamsMatrix)
+        if len(possibileMoves[0]) == 0:
             return False
 
         find = False
-        for move in possibileMoves:
+        for move in possibileMoves[0]:
             find = find or self.calculate_closed_path_to_starting_positions(starting_position_x, starting_position_y,
                                                                         self.playMove(obj, move, player, figure),
-                                                                        move, player, figure, obj_player_figure )
+                                                                        move, player, figure, obj_player_figure,
+                                                                        possibileMoves[1])
         return find
 
 
@@ -214,9 +186,15 @@ class Wall(object):
                         return -1
                     else:
                         # we make copy of whole tableField object and add new wall than we check if it has path to start position
-                        obj2 = self.deep_copy_table(obj, obj.x, obj.y)
-                        obj2.update_field_for_blue(x, y, y+1, wall)
-                        has_path = self.check_if_there_are_paths(obj2)
+                        copiedMatrix = deep_copy_table(obj, obj.x, obj.y)
+                        visibleParamsMatrix = generate_matrix_for_visible(copiedMatrix.x, copiedMatrix.y)
+                        copiedMatrix.update_field_for_blue(x, y, y+1, wall)
+                        has_path = self.calculate_closed_path_to_starting_positions(
+                            copiedMatrix.player2.figure1.startingPositionX,
+                            copiedMatrix.player2.figure1.startingPositionY,
+                            copiedMatrix,
+                            (copiedMatrix.player1.figure1.positionX, copiedMatrix.player1.figure1.positionY),
+                            'player1', 'figure1', copiedMatrix.player1.figure1, visibleParamsMatrix)
                         if has_path:
                             player.remainingBlueWalls = player.remainingBlueWalls - 1
                             obj.update_field_for_blue(x, y, y+1, wall)
@@ -238,7 +216,7 @@ class Wall(object):
                         print(Colors.WARNING + "There is a blue wall between." + Colors.ENDC)
                         return -1
                     else:
-                        obj2 = self.deep_copy_table(obj, obj.x, obj.y)
+                        obj2 = deep_copy_table(obj, obj.x, obj.y)
                         obj2.update_field_for_green(x, y, x+1, wall)
                         has_path = self.check_if_there_are_paths(obj2)
                         if has_path:

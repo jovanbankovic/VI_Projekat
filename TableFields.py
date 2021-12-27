@@ -5,6 +5,7 @@ from _common import matrixDimensionX, matrixDimensionY, minMatrixDimensionY, min
     invalidPreGameParamsMessage
 from Player import Player
 from Colors import Colors
+from copy import deepcopy
 
 
 def input_and_validate_pre_game_params(min_value, max_value, input_message):
@@ -42,6 +43,46 @@ def define_starting_y_position(min_y, max_y, second_position_message, invalid):
     else:
         return y - 1
 
+
+def deep_copy_table(obj, x, y):
+    """
+    Funkcija koja pravi kopiju polja koriscenjem biblioteke copy. Povratna vrednost funkcije je objekat TableFields
+    """
+    w, h = y, x
+    matrix = [[0 for x in range(w)] for y in range(h)]
+    for i in range(x):
+        for j in range(y):
+            matrix[i][j] = deepcopy(obj.table_fields[i][j])
+
+    new_table_fields = TableFields()
+
+    player1 = Player(None, None, None, None, None)
+    new_player1 = player1.create_player(obj.player1.figure1.positionX, obj.player1.figure1.positionY,
+                                        obj.player1.figure1.startingPositionX,obj.player1.figure1.startingPositionY,
+                                        obj.player1.figure2.positionX, obj.player1.figure2.positionY,
+                                        obj.player1.figure2.startingPositionX, obj.player1.figure2.startingPositionY
+                                        )
+    player2 = Player(None, None, None, None, None)
+    new_player2 = player2.create_player(obj.player2.figure1.positionX, obj.player2.figure1.positionY,
+                                        obj.player2.figure1.startingPositionX,obj.player2.figure1.startingPositionY,
+                                        obj.player2.figure2.positionX, obj.player2.figure2.positionY,
+                                        obj.player2.figure2.startingPositionX,
+                                        obj.player2.figure2.startingPositionY
+                                        )
+    copy = new_table_fields.create_game_table(matrix, obj.x, obj.y, obj.k, new_player1, new_player2)
+    return copy
+
+def create_list_of_all_possible_situations(obj, move, wall_pos):
+    """
+    Funkcija koja pravi listu svih mogucih situacija na tabli korisiscenjem funkcije koja kreira novu situaciju na tabli
+    """
+    list_all_pos_situations = []
+    return
+
+def generate_matrix_for_visible(x, y):
+    w, h = y, x
+    matrix = [[0 for x in range(w)] for y in range(h)]
+    return matrix
 
 class Field(object):
     index: ()
