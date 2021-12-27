@@ -45,14 +45,14 @@ def switch_turns(turn, obj, wall_obj):
             print(Colors.FAIL + 'Player 1 is playing...' + Colors.ENDC)
             wall_obj.init_wall(obj, obj.player1)
             obj.print_game_table()
-            obj.player1.move_figure(obj)
+            #obj.player1.move_figure(obj)
             obj.print_game_table()
             return 2
         case 2:
             print(Colors.FAIL + 'Player 2 is playing...' + Colors.ENDC)
             wall_obj.init_wall(obj, obj.player2)
             obj.print_game_table()
-            obj.player2.move_figure(obj)
+            #obj.player2.move_figure(obj)
             obj.print_game_table()
             return 1
 
