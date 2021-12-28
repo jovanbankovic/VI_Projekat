@@ -82,6 +82,11 @@
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="TableFields.Field.visited">
+<span class="sig-name descname"><span class="pre">visited</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#TableFields.Field.visited" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="TableFields.Field.wallDown">
 <span class="sig-name descname"><span class="pre">wallDown</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#TableFields.Field.wallDown" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
@@ -107,6 +112,12 @@
 <dt class="sig sig-object py" id="TableFields.TableFields">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TableFields.</span></span><span class="sig-name descname"><span class="pre">TableFields</span></span><a class="headerlink" href="#TableFields.TableFields" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="TableFields.TableFields.announce_winner">
+<span class="sig-name descname"><span class="pre">announce_winner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">winner</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TableFields.TableFields.announce_winner" title="Permalink to this definition"></a></dt>
+<dd><p>Funkcija koja obavestava ko je pobednik igre</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="TableFields.TableFields.create_game_table">
 <span class="sig-name descname"><span class="pre">create_game_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_fields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TableFields.TableFields.create_game_table" title="Permalink to this definition"></a></dt>
@@ -176,6 +187,18 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="TableFields.create_list_of_all_possible_situations">
+<span class="sig-prename descclassname"><span class="pre">TableFields.</span></span><span class="sig-name descname"><span class="pre">create_list_of_all_possible_situations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">move</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wall_pos</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TableFields.create_list_of_all_possible_situations" title="Permalink to this definition"></a></dt>
+<dd><p>Funkcija koja pravi listu svih mogucih situacija na tabli korisiscenjem funkcije koja kreira novu situaciju na tabli</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="TableFields.deep_copy_table">
+<span class="sig-prename descclassname"><span class="pre">TableFields.</span></span><span class="sig-name descname"><span class="pre">deep_copy_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TableFields.deep_copy_table" title="Permalink to this definition"></a></dt>
+<dd><p>Funkcija koja pravi kopiju polja koriscenjem biblioteke copy. Povratna vrednost funkcije je objekat TableFields</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="TableFields.define_starting_x_position">
 <span class="sig-prename descclassname"><span class="pre">TableFields.</span></span><span class="sig-name descname"><span class="pre">define_starting_x_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_position_message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invalid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TableFields.define_starting_x_position" title="Permalink to this definition"></a></dt>
 <dd><p>Funkcija koja omogucava korisniku da X koordinatu pocetne pozicije uz validaciju</p>
@@ -186,6 +209,11 @@
 <span class="sig-prename descclassname"><span class="pre">TableFields.</span></span><span class="sig-name descname"><span class="pre">define_starting_y_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_position_message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invalid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TableFields.define_starting_y_position" title="Permalink to this definition"></a></dt>
 <dd><p>Funkcija koja omogucava korisniku da Y koordinatu pocetne pozicije uz validaciju</p>
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="TableFields.generate_matrix_for_visible">
+<span class="sig-prename descclassname"><span class="pre">TableFields.</span></span><span class="sig-name descname"><span class="pre">generate_matrix_for_visible</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TableFields.generate_matrix_for_visible" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="TableFields.input_and_validate_pre_game_params">

@@ -71,6 +71,28 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Wall.</span></span><span class="sig-name descname"><span class="pre">Wall</span></span><a class="headerlink" href="#Wall.Wall" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
+<dt class="sig sig-object py" id="Wall.Wall.calculate_closed_path_to_starting_positions">
+<span class="sig-name descname"><span class="pre">calculate_closed_path_to_starting_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">starting_position_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">starting_position_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">currentPos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visibleParamsMatrix</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wall.Wall.calculate_closed_path_to_starting_positions" title="Permalink to this definition"></a></dt>
+<dd><p>Funkcija koja racuna da li postoji put do pocetnih polja. Iskoristili smo rekurziju da simuliramo stablo, tako sto
+za svako polje racunamo moguce poteze. Za svaki od mogucih poteza rekurzivnim pozivom funkcije izvrsavamo isti algoritam sve
+dok ne nadje ili ne nadje put do pocetnog polja</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Wall.Wall.check_if_there_are_paths">
+<span class="sig-name descname"><span class="pre">check_if_there_are_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wall.Wall.check_if_there_are_paths" title="Permalink to this definition"></a></dt>
+<dd><p>Funkcija koja za oba igraca i njegove figure poziva funkcija za racunanje da li postoji put do pocetne pozicije</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Wall.Wall.findPossibleMoves">
+<span class="sig-name descname"><span class="pre">findPossibleMoves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_positionX</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_postionY</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visibleParamsMatrix</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wall.Wall.findPossibleMoves" title="Permalink to this definition"></a></dt>
+<dd><p>Funkcija koja vraca listu mogucih poteza za svako polje. Za svaku od 8 mogucnosti, ispitujemo da li je moguce
+kretanje i ukoliko jeste i naredno polje nema Visited flag ubacujemo ga u listu mogucih poteza, dok parametar
+Visited u trenutnom polju postavljamo na True</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="Wall.Wall.init_wall">
 <span class="sig-name descname"><span class="pre">init_wall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wall.Wall.init_wall" title="Permalink to this definition"></a></dt>
 <dd><p>Funkcija koja omogucava unos pozicija gde ce se nalaziti zid i postavlja ga uz validaciju</p>
@@ -80,6 +102,12 @@
 <dt class="sig sig-object py" id="Wall.Wall.make_wall">
 <span class="sig-name descname"><span class="pre">make_wall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wall_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wall.Wall.make_wall" title="Permalink to this definition"></a></dt>
 <dd><p>Funkcija koja kreira zid i postavlja parametre</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Wall.Wall.playMove">
+<span class="sig-name descname"><span class="pre">playMove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figure</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wall.Wall.playMove" title="Permalink to this definition"></a></dt>
+<dd><p>Funkcija koja u zavinosti od igraca i figure postavlja X i Y koordinatu figure</p>
 </dd></dl>
 
 <dl class="py attribute">

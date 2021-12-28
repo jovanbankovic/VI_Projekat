@@ -70,6 +70,11 @@
 <dt class="sig sig-object py" id="Player.Player">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Player.</span></span><span class="sig-name descname"><span class="pre">Player</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first_figure_pos_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_figure_pos_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_figure_pos_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_figure_pos_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remaining_walls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Player.Player" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Player.Player.create_player">
+<span class="sig-name descname"><span class="pre">create_player</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first_figure_pos_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_figure_pos_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_figure1_pos_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_figure1_pos_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_figure_pos_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_figure_pos_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_figure2_pos_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_figure2_pos_y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Player.Player.create_player" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Player.Player.figure1">
 <span class="sig-name descname"><span class="pre">figure1</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#Player.Player.figure1" title="Permalink to this definition"></a></dt>
@@ -101,7 +106,25 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="Player.define_first_player">
 <span class="sig-prename descclassname"><span class="pre">Player.</span></span><span class="sig-name descname"><span class="pre">define_first_player</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Player.define_first_player" title="Permalink to this definition"></a></dt>
-<dd><p>Funkcija koja odredjuje prvog igraca</p>
+<dd><p>Funkcija koja odredjuje prvog igraca izmedju igraca i kompjutera</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Player.define_first_turn_between_players">
+<span class="sig-prename descclassname"><span class="pre">Player.</span></span><span class="sig-name descname"><span class="pre">define_first_turn_between_players</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Player.define_first_turn_between_players" title="Permalink to this definition"></a></dt>
+<dd><p>Funkcija koja odredjuje prvog izmedju dva igraca</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Player.play_turn">
+<span class="sig-prename descclassname"><span class="pre">Player.</span></span><span class="sig-name descname"><span class="pre">play_turn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wall_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_player_choice</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Player.play_turn" title="Permalink to this definition"></a></dt>
+<dd><p>Fukcija koja proverava zavrsetak igre, obavestava o pobedniku i poziva fuknkciju za odigravanje poteza ukoliko igra nije zavrsena</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Player.switch_turns">
+<span class="sig-prename descclassname"><span class="pre">Player.</span></span><span class="sig-name descname"><span class="pre">switch_turns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">turn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wall_obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Player.switch_turns" title="Permalink to this definition"></a></dt>
+<dd><p>Funkcija koja poziva funkcije za odigravanje partije u zavisnosti od redosleda</p>
 </dd></dl>
 
 </section>
