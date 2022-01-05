@@ -72,13 +72,6 @@ def deep_copy_table(obj, x, y):
     copy = new_table_fields.create_game_table(matrix, obj.x, obj.y, obj.k, new_player1, new_player2)
     return copy
 
-def create_list_of_all_possible_situations(obj, move, wall_pos):
-    """
-    Funkcija koja pravi listu svih mogucih situacija na tabli korisiscenjem funkcije koja kreira novu situaciju na tabli
-    """
-    list_all_possible_situations = []
-    return
-
 def generate_matrix_for_visible(x, y):
     w, h = y, x
     matrix = [[0 for x in range(w)] for y in range(h)]
@@ -153,7 +146,7 @@ class TableFields(object):
         """
         Funkcija koja postavlja plavi zid na zadatim pozicijama u matrici polja
         """
-        if 0 < x < self.x and 0 < y < self.y:
+        if 0 < x < self.x - 1 and 0 < y < self.y - 1:
             self.table_fields[x][y].wallDown["type"] = wall.wall_type
             self.table_fields[x][k].wallDown["type"] = wall.wall_type
             self.table_fields[x+1][y].wallUp["type"] = wall.wall_type
@@ -166,7 +159,7 @@ class TableFields(object):
         """
         Funkcija koja postavlja zeleni zid na zadatim pozicijama u matrici polja
         """
-        if 0 < x < self.y and 0 < y < self.y:
+        if 0 < x < self.x - 1 and 0 < y < self.y - 1:
             self.table_fields[x][y].wallRight["type"] = wall.wall_type
             self.table_fields[k][y].wallRight["type"] = wall.wall_type
             self.table_fields[x][y+1].wallLeft["type"] = wall.wall_type

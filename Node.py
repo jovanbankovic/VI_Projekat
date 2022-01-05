@@ -1,4 +1,5 @@
 
+MAX, MIN = 1000, -1000
 
 class Node(object):
     def __init__(self):
@@ -119,3 +120,35 @@ class Node(object):
             list_of_possible_states.append(self.all_states_based_on_move(new_matrix_state, move[1]))
 
         return list_of_possible_states
+
+    def state_quality(self):
+        return True
+
+    def min_max(self, matrix_state, depth, maximizing_player, alpha, beta):
+        if depth == 0:
+            return self.state_quality()
+
+        list_of_moves = self.determinate_possible_state(matrix_state)
+
+        if maximizing_player:
+            best = MIN
+
+            for move in list_of_moves:
+                val = self.min_max(move, depth - 1, False, alpha, beta)
+                best = max(best, val)
+                alpha = max(alpha, best)
+
+                if beta <= alpha:
+                    break
+            return best
+        else:
+            best = MAX
+
+            for move in list_of_moves:
+                val = self.min_max(move, depth - 1, True, alpha, beta)
+                best = min(best, val)
+                beta = min(beta, best)
+                if beta <= alpha:
+                    break
+            return best
+

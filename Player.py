@@ -75,6 +75,19 @@ def play_turn(obj, wall_obj, first_player_choice):
             players_turn = switch_turns(players_turn, obj, wall_obj)
         play_turn(obj, wall_obj, players_turn)
 
+def choose_singleplayer_or_multiplayer():
+    print(Colors.OKBLUE + 'Choose between singleplayer or multiplayer.' + Colors.ENDC)
+    print('Type ' + Colors.OKBLUE + 'Singleplayer' + Colors.ENDC + ' if you want Singleplayer to go first.')
+    print('Type ' + Colors.OKBLUE + 'Multiplayer' + Colors.ENDC + ' if you want Multiplayer to go first.')
+    choice = input('> ').lower()
+    if choice == 'singleplayer':
+        return 1
+    elif choice == 'multiplayer':
+        return 2
+    else:
+        print(Colors.FAIL + 'Invalid choice. Try again. ' + Colors.ENDC)
+        return choose_singleplayer_or_multiplayer()
+
 
 class Player(object):
     figure1 = None
