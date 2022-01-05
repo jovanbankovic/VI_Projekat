@@ -7,7 +7,7 @@ class Figure(object):
     startingPositionX: None
     startingPositionY: None
 
-    def __init__(self, x, y, startX,startY):
+    def __init__(self, x, y, startX, startY):
         self.positionX = x
         self.positionY = y
         self.startingPositionX = startX
@@ -78,7 +78,6 @@ class Figure(object):
             return 1
 
     def isValidMove(self, x, y, obj, direction):
-
         match direction:
             case "desno":
                 if  (0 <= self.positionX < len(obj.table_fields) and 0 <= self.positionY + 1 < len(obj.table_fields[0])):
@@ -167,6 +166,95 @@ class Figure(object):
                 else:
                     return False, (None, None)
 
+
+    def is_valid_move_for_node(self, x, y, obj, direction):
+        match direction:
+            case "desno":
+                if  (0 <= self.positionX < len(obj.table_fields) and 0 <= self.positionY + 2 < len(obj.table_fields[0])):
+                    if obj.table_fields[self.positionX][self.positionY + 1].wallLeft["type"] == "green" or \
+                            obj.table_fields[self.positionX][self.positionY + 1].wallRight["type"] == "green":
+                        return False, (None, None)
+                    else:
+                        return True, (self.positionX, self.positionY + 2)
+                else:
+                    return False, (None, None)
+            case "levo":
+                if (0 <= self.positionX < len(obj.table_fields) and 0 <= self.positionY - 2 < len(obj.table_fields[0])):
+                    if obj.table_fields[self.positionX][self.positionY - 1].wallLeft["type"] == "green" or \
+                            obj.table_fields[self.positionX][self.positionY - 1].wallRight["type"] == "green":
+                        return False, (None, None)
+                    else:
+                        return True, (self.positionX, self.positionY - 2)
+                else:
+                    return False, (None, None)
+            case "gore":
+                if (0 <= self.positionX - 2 < len(obj.table_fields) and 0 <= self.positionY < len(
+                        obj.table_fields[0])):
+                    if obj.table_fields[self.positionX - 1][self.positionY].wallUp["type"] == "blue" or \
+                            obj.table_fields[self.positionX - 1][self.positionY].wallDown["type"] == "blue":
+                        return False, (None, None)
+                    else:
+                        return True, (self.positionX - 2, self.positionY)
+                else:
+                    return False, (None, None)
+            case "dole":
+                if (0 <= self.positionX + 2 < len(obj.table_fields) and 0 <= self.positionY < len(
+                        obj.table_fields[0])):
+                    if obj.table_fields[self.positionX + 1][self.positionY].wallUp["type"] == "blue" or \
+                            obj.table_fields[self.positionX + 1][self.positionY].wallDown["type"] == "blue":
+                        return False, (None, None)
+                    else:
+                        return True, (self.positionX + 2, self.positionY)
+                else:
+                    return False, (None, None)
+            case "dijagonalaGore_levo":
+                if (0 <= self.positionX - 1 < len(obj.table_fields) and 0 <= self.positionY - 1 < len(
+                        obj.table_fields[0])):
+                    if obj.table_fields[self.positionX - 1][self.positionY - 1].wallDown["type"] == "blue" or \
+                            obj.table_fields[self.positionX - 1][self.positionY - 1].wallRight["type"] == "green" or \
+                            obj.table_fields[self.positionX][self.positionY].wallLeft["type"] == "green" or \
+                            obj.table_fields[self.positionX][self.positionY].wallUp["type"] == "blue":
+                        return False, (None, None)
+                    else:
+                        return True, (self.positionX-1, self.positionY - 1)
+                else:
+                    return False, (None, None)
+            case "dijagonalaGore_desno":
+                if (0 <= self.positionX - 1 < len(obj.table_fields) and 0 <= self.positionY + 1 < len(
+                        obj.table_fields[0])):
+                    if obj.table_fields[self.positionX - 1][self.positionY + 1].wallDown["type"] == "blue" or \
+                            obj.table_fields[self.positionX - 1][self.positionY + 1].wallLeft["type"] == "green" or \
+                            obj.table_fields[self.positionX][self.positionY].wallRight["type"] == "green" or \
+                            obj.table_fields[self.positionX][self.positionY].wallUp["type"] == "blue":
+                        return False, (None, None)
+                    else:
+                        return True, (self.positionX-1, self.positionY+1)
+                else:
+                    return False, (None, None)
+            case "dijagonalaDole_desno":
+                if (0 <= self.positionX + 1 < len(obj.table_fields) and 0 <= self.positionY + 1 < len(
+                        obj.table_fields[0])):
+                    if obj.table_fields[self.positionX + 1][self.positionY + 1].wallUp["type"] == "blue" or \
+                            obj.table_fields[self.positionX + 1][self.positionY + 1].wallLeft["type"] == "green" or \
+                            obj.table_fields[self.positionX][self.positionY].wallRight["type"] == "green" or \
+                            obj.table_fields[self.positionX][self.positionY].wallDown["type"] == "blue":
+                        return False, (None, None)
+                    else:
+                        return True, (self.positionX+1, self.positionY+1)
+                else:
+                    return False, (None, None)
+            case "dijagonalaDole_levo":
+                if (0 <= self.positionX +1 < len(obj.table_fields) and 0 <= self.positionY - 1 < len(
+                        obj.table_fields[0])):
+                    if obj.table_fields[self.positionX + 1][self.positionY - 1].wallUp["type"] == "blue" or \
+                            obj.table_fields[self.positionX + 1][self.positionY - 1].wallRight["type"] == "green" or \
+                            obj.table_fields[self.positionX][self.positionY].wallLeft["type"] == "green" or \
+                            obj.table_fields[self.positionX][self.positionY].wallDown["type"] == "blue":
+                        return False, (None, None)
+                    else:
+                        return True, (self.positionX+1, self.positionY-1)
+                else:
+                    return False, (None, None)
 
 
     def move(self, x, y, obj):

@@ -2,6 +2,7 @@ from Colors import Colors
 from TableFields import deep_copy_table, generate_matrix_for_visible
 
 
+
 class Wall(object):
     wall_type = ""
     position = (0, 0)
@@ -248,5 +249,4 @@ class Wall(object):
         else:
             print(Colors.WARNING + 'Entered values are invalid. Please try again.' + Colors.ENDC)
             self.init_wall(obj, player)
-
 
