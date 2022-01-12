@@ -32,10 +32,11 @@ class Node(object):
                             return_param = copied_matrix.update_field_for_blue(x, y, y + 1, wall)
                             if return_param:
                                 has_path = wall_object.check_if_there_are_paths(copied_matrix)
+                                #has_path = True
                                 if has_path:
-                                    player.remainingBlueWalls = player.remainingBlueWalls - 1
-                                    player.figure1.positionX = move[0]
-                                    player.figure1.positionY = move[1]
+                                    obj.player1.remainingBlueWalls = obj.player1.remainingBlueWalls - 1
+                                    obj.player1.figure1.positionX = move[0]
+                                    obj.player1.figure1.positionY = move[1]
                                     obj.update_field_for_blue(x, y, y + 1, wall)
                                     return obj
                                 else:
@@ -62,10 +63,11 @@ class Node(object):
                             return_param = copied_matrix.update_field_for_green(x, y, x + 1, wall)
                             if return_param:
                                 has_path = wall_object.check_if_there_are_paths(copied_matrix)
+                                #has_path = True
                                 if has_path:
-                                    player.remainingGreenWalls = player.remainingGreenWalls - 1
-                                    player.figure1.positionX = move[0]
-                                    player.figure1.positionY = move[1]
+                                    obj.player1.remainingGreenWalls = obj.player1.remainingGreenWalls - 1
+                                    obj.player1.figure1.positionX = move[0]
+                                    obj.player1.figure1.positionY = move[1]
                                     obj.update_field_for_green(x, y, x + 1, wall)
                                     return obj
                                 else:
