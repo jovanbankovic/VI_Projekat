@@ -5,8 +5,22 @@ MAX, MIN = 1000, -1000
 
 
 class Node(object):
+    postion_of_figure: ()
+    postions_of_blue_walls: ()
+    postions_of_green_walls: ()
+
+
+
     def __init__(self):
         return
+
+    def make_node_for_blue_wall(self, position_of_figure, position_of_blue_walls):
+        self.postion_of_figure = position_of_figure
+        self.postions_of_blue_walls = position_of_blue_walls
+
+    def make_node_for_green_wall(self, position_of_figure, position_of_green_walls):
+        self.postion_of_figure = position_of_figure
+        self.postions_of_green_walls_walls = position_of_green_walls
 
     def new_state_of_game(self, obj_param, x, y, inp, player, move):
         from TableFields import deep_copy_table
@@ -27,21 +41,28 @@ class Node(object):
                         elif obj.table_fields[x][y].wallRight["type"] == "green":
                             return -1
                         else:
-                            # we make copy of whole tableField object and add new wall than we check if it has path to start position
-                            copied_matrix = deep_copy_table(obj, obj.x, obj.y)
-                            return_param = copied_matrix.update_field_for_blue(x, y, y + 1, wall)
-                            if return_param:
-                                has_path = wall_object.check_if_there_are_paths(copied_matrix)
-                                if has_path:
-                                    player.remainingBlueWalls = player.remainingBlueWalls - 1
-                                    player.figure1.positionX = move[0]
-                                    player.figure1.positionY = move[1]
-                                    obj.update_field_for_blue(x, y, y + 1, wall)
-                                    return obj
-                                else:
-                                    return -1
+                            has_path = wall_object.check_if_there_are_paths(obj)
+                            if has_path:
+                                node = Node()
+                                node.make_node_for_blue_wall(move, [(x, y), (x, y+1)])
+                                return node
                             else:
                                 return -1
+                            # we make copy of whole tableField object and add new wall than we check if it has path to start position
+                            # copied_matrix = deep_copy_table(obj, obj.x, obj.y)
+                            # return_param = copied_matrix.update_field_for_blue(x, y, y + 1, wall)
+                            #if return_param:
+                            #     has_path = wall_object.check_if_there_are_paths(obj)
+                            #     if has_path:
+                            #         player.remainingBlueWalls = player.remainingBlueWalls - 1
+                            #         player.figure1.positionX = move[0]
+                            #         player.figure1.positionY = move[1]
+                            #         obj.update_field_for_blue(x, y, y + 1, wall)
+                            #         return obj
+                            #     else:
+                            #         return -1
+                            # else:
+                            #     return -1
                     else:
                         return -1
                 else:
@@ -58,20 +79,27 @@ class Node(object):
                         elif obj.table_fields[x][y].wallDown["type"] == "blue":
                             return -1
                         else:
-                            copied_matrix = deep_copy_table(obj, obj.x, obj.y)
-                            return_param = copied_matrix.update_field_for_green(x, y, x + 1, wall)
-                            if return_param:
-                                has_path = wall_object.check_if_there_are_paths(copied_matrix)
-                                if has_path:
-                                    player.remainingGreenWalls = player.remainingGreenWalls - 1
-                                    player.figure1.positionX = move[0]
-                                    player.figure1.positionY = move[1]
-                                    obj.update_field_for_green(x, y, x + 1, wall)
-                                    return obj
-                                else:
-                                    return -1
+                            has_path = wall_object.check_if_there_are_paths(obj)
+                            if has_path:
+                                node = Node()
+                                node.make_node_for_green_wall(move, [(x, y), (x+1, y)])
+                                return node
                             else:
                                 return -1
+                            # copied_matrix = deep_copy_table(obj, obj.x, obj.y)
+                            # return_param = copied_matrix.update_field_for_green(x, y, x + 1, wall)
+                            # if return_param:
+                            #     has_path = wall_object.check_if_there_are_paths(copied_matrix)
+                            #     if has_path:
+                            #         player.remainingGreenWalls = player.remainingGreenWalls - 1
+                            #         player.figure1.positionX = move[0]
+                            #         player.figure1.positionY = move[1]
+                            #         obj.update_field_for_green(x, y, x + 1, wall)
+                            #         return obj
+                            #     else:
+                            #         return -1
+                            # else:
+                            #     return -1
                     else:
                         return -1
                 else:
