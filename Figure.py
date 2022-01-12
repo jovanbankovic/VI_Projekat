@@ -17,6 +17,10 @@ class Figure(object):
         return str(self.__class__) + '\n' + '\n'.join(
             ('{} = {}'.format(item, self.__dict__[item]) for item in self.__dict__))
 
+    def __deepcopy__(self, memodict={}):
+        player_copy = Figure(self.positionX, self.positionY, self.startingPositionX,
+                             self.startingPositionY)
+        return player_copy
     def determine_direction(self, x, y):
         """
         Funkcija koja odredjuje pravac kretanja figure
@@ -89,6 +93,8 @@ class Figure(object):
                 else:
                     return False, (None, None)
             case "levo":
+                if self.positionX is None:
+                    return
                 if (0 <= self.positionX < len(obj.table_fields) and 0 <= self.positionY - 1 < len(obj.table_fields[0])):
                     if obj.table_fields[self.positionX][self.positionY - 1].wallLeft["type"] == "green" or \
                             obj.table_fields[self.positionX][self.positionY - 1].wallRight["type"] == "green":

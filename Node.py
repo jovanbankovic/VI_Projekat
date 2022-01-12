@@ -1,5 +1,8 @@
+from TableFields import deep_copy_table
+from random import randrange
 
 MAX, MIN = 1000, -1000
+
 
 class Node(object):
     def __init__(self):
@@ -80,6 +83,7 @@ class Node(object):
 
 
     def all_states_based_on_move(self, obj, move):
+
         list_of_states = []
 
         for i in range(obj.x):
@@ -94,6 +98,7 @@ class Node(object):
                 if returned_value != -1:
                     list_of_states.append(returned_value)
 
+        bra = list_of_states.pop(0)
         return list_of_states
 
 
@@ -101,7 +106,6 @@ class Node(object):
         """
 
         """
-        from TableFields import deep_copy_table
 
         list_of_possible_states = []
 
@@ -116,13 +120,14 @@ class Node(object):
             list_of_possible_moves.append(value)
 
         for move in list_of_possible_moves:
-            new_matrix_state = deep_copy_table(obj, obj.x, obj.y)
-            list_of_possible_states.append(self.all_states_based_on_move(new_matrix_state, move[1]))
+            if move[0] is not False:
+                new_matrix_state = deep_copy_table(obj, obj.x, obj.y)
+                list_of_possible_states.append(self.all_states_based_on_move(new_matrix_state, move[1]))
 
         return list_of_possible_states
 
     def state_quality(self):
-        return True
+        return randrange(20)
 
     def min_max(self, matrix_state, depth, maximizing_player, alpha, beta):
         if depth == 0:
@@ -133,22 +138,24 @@ class Node(object):
         if maximizing_player:
             best = MIN
 
-            for move in list_of_moves:
-                val = self.min_max(move, depth - 1, False, alpha, beta)
-                best = max(best, val)
-                alpha = max(alpha, best)
+            for moves in list_of_moves:
+                for move in moves:
+                    val = self.min_max(move, depth - 1, False, alpha, beta)
+                    best = max(best, val)
+                    alpha = max(alpha, best)
 
-                if beta <= alpha:
-                    break
+                    if beta <= alpha:
+                        break
             return best
         else:
             best = MAX
 
-            for move in list_of_moves:
-                val = self.min_max(move, depth - 1, True, alpha, beta)
-                best = min(best, val)
-                beta = min(beta, best)
-                if beta <= alpha:
-                    break
+            for moves in list_of_moves:
+                for move in moves:
+                    val = self.min_max(move, depth - 1, True, alpha, beta)
+                    best = min(best, val)
+                    beta = min(beta, best)
+                    if beta <= alpha:
+                        break
             return best
 

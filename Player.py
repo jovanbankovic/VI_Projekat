@@ -101,6 +101,10 @@ class Player(object):
         self.remainingBlueWalls = remaining_walls
         self.remainingGreenWalls = remaining_walls
 
+    def __deepcopy__(self, memodict={}):
+         player_copy = Player(self.figure1.positionX, self.figure1.positionY, self.figure2.positionX,
+                              self.figure2.positionY, self.remainingBlueWalls)
+         return player_copy
     def create_player(self, first_figure_pos_x, first_figure_pos_y,start_figure1_pos_x, start_figure1_pos_y,
                       second_figure_pos_x, second_figure_pos_y, start_figure2_pos_x, start_figure2_pos_y):
         self.figure1 = Figure(first_figure_pos_x, first_figure_pos_y,start_figure1_pos_x, start_figure1_pos_y)

@@ -1,3 +1,5 @@
+import pickle
+
 from _common import matrixDimensionX, matrixDimensionY, minMatrixDimensionY, minMatrixDimensionX, maxMatrixDimensionY, \
     maxMatrixDimensionX, minAmountOfWalls, maxAmountOfWalls, amountOfWalls, player1Position1MessageX, \
     player1Position2MessageX, player1Position1MessageY, player1Position2MessageY, player2Position1MessageY, \
@@ -6,6 +8,7 @@ from _common import matrixDimensionX, matrixDimensionY, minMatrixDimensionY, min
 from Player import Player
 from Colors import Colors
 from copy import deepcopy
+import ujson
 
 
 def input_and_validate_pre_game_params(min_value, max_value, input_message):
@@ -48,29 +51,34 @@ def deep_copy_table(obj, x, y):
     """
     Funkcija koja pravi kopiju polja koriscenjem biblioteke copy. Povratna vrednost funkcije je objekat TableFields
     """
-    w, h = y, x
-    matrix = [[0 for x in range(w)] for y in range(h)]
-    for i in range(x):
-        for j in range(y):
-            matrix[i][j] = deepcopy(obj.table_fields[i][j])
+    #w, h = y, x
 
-    new_table_fields = TableFields()
+    test_copy = pickle.loads(pickle.dumps(obj))
 
-    player1 = Player(None, None, None, None, None)
-    new_player1 = player1.create_player(obj.player1.figure1.positionX, obj.player1.figure1.positionY,
-                                        obj.player1.figure1.startingPositionX,obj.player1.figure1.startingPositionY,
-                                        obj.player1.figure2.positionX, obj.player1.figure2.positionY,
-                                        obj.player1.figure2.startingPositionX, obj.player1.figure2.startingPositionY
-                                        )
-    player2 = Player(None, None, None, None, None)
-    new_player2 = player2.create_player(obj.player2.figure1.positionX, obj.player2.figure1.positionY,
-                                        obj.player2.figure1.startingPositionX,obj.player2.figure1.startingPositionY,
-                                        obj.player2.figure2.positionX, obj.player2.figure2.positionY,
-                                        obj.player2.figure2.startingPositionX,
-                                        obj.player2.figure2.startingPositionY
-                                        )
-    copy = new_table_fields.create_game_table(matrix, obj.x, obj.y, obj.k, new_player1, new_player2)
-    return copy
+    #test_copy = deepcopy(obj)
+
+    # matrix = [[0 for x in range(w)] for y in range(h)]
+    # for i in range(x):
+    #     for j in range(y):
+    #         matrix[i][j] = deepcopy(obj.table_fields[i][j])
+    #
+    # new_table_fields = TableFields()
+    #
+    # player1 = Player(None, None, None, None, None)
+    # new_player1 = player1.create_player(obj.player1.figure1.positionX, obj.player1.figure1.positionY,
+    #                                     obj.player1.figure1.startingPositionX,obj.player1.figure1.startingPositionY,
+    #                                     obj.player1.figure2.positionX, obj.player1.figure2.positionY,
+    #                                     obj.player1.figure2.startingPositionX, obj.player1.figure2.startingPositionY
+    #                                     )
+    # player2 = Player(None, None, None, None, None)
+    # new_player2 = player2.create_player(obj.player2.figure1.positionX, obj.player2.figure1.positionY,
+    #                                     obj.player2.figure1.startingPositionX,obj.player2.figure1.startingPositionY,
+    #                                     obj.player2.figure2.positionX, obj.player2.figure2.positionY,
+    #                                     obj.player2.figure2.startingPositionX,
+    #                                     obj.player2.figure2.startingPositionY
+    #                                     )
+    # copy = new_table_fields.create_game_table(matrix, obj.x, obj.y, obj.k, new_player1, new_player2)
+    return test_copy
 
 def generate_matrix_for_visible(x, y):
     w, h = y, x
@@ -126,6 +134,23 @@ class TableFields(object):
         self.player1 = self.player1
         self.player2 = self.player2
 
+    def __copy__(self):
+        copy_object = TableFields()
+        return copy_object
+
+    def __deepcopy__(self, memodict={}):
+        copy_object = TableFields()
+        # copy_object.table_fields = [[0 for x in range(self.y)] for y in range(self.x)]
+        # for i in range(self.x):
+        #     for j in range(self.y):
+        #         copy_object.table_fields[i][j] = deepcopy(self.table_fields[i][j])
+        copy_object.table_fields = deepcopy(self.table_fields)
+        copy_object.x = self.x
+        copy_object.y = self.y
+        copy_object.k = self.k
+        copy_object.player1 = deepcopy(self.player1)
+        copy_object.player2 = deepcopy(self.player2)
+        return copy_object
     def __str__(self):
         return str(self.__class__) + '\n' + '\n'.join(
             ('{} = {}'.format(item, self.__dict__[item]) for item in self.__dict__))

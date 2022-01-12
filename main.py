@@ -14,9 +14,9 @@ if __name__ == '__main__':
     obj.init_game_table()
     obj.print_game_table()
 
-    #node = Node()
-    #node.min_max(obj, 3, True, MIN, MAX)
+    node = Node()
+    node.min_max(obj, 3, True, MIN, MAX)
     #node.determinate_possible_state(obj)
 
-    play_turn(obj, wallObj, first_player_choice)
+    #play_turn(obj, wallObj, first_player_choice)
 
