@@ -15,8 +15,8 @@ if __name__ == '__main__':
     obj.print_game_table()
 
     node = Node()
-    node.min_max(obj, 3, True, MIN, MAX)
+    bra = node.min_max(obj, 1, True, MIN, MAX)
     #node.determinate_possible_state(obj)
 
-    #play_turn(obj, wallObj, first_player_choice)
+    play_turn(obj, wallObj, first_player_choice)
 

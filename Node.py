@@ -128,35 +128,49 @@ class Node(object):
 
         return list_of_possible_states
 
-    def state_quality(self):
-        return randrange(20)
+    def state_quality(self, current_state):
+
+        value_of_state = randrange(1001)
+        return value_of_state, current_state
+
+    def MAX(self, best, val):
+        if best[0] < val[0]:
+            return val
+        else:
+            return best
+
+    def MIN(self, best, val):
+        if best[0] > val[0]:
+            return val
+        else:
+            return best
 
     def min_max(self, matrix_state, depth, maximizing_player, alpha, beta):
         if depth == 0:
-            return self.state_quality()
+            return self.state_quality(matrix_state)
 
         list_of_moves = self.determinate_possible_state(matrix_state)
 
         if maximizing_player:
-            best = MIN
+            best = [MIN]
 
             for moves in list_of_moves:
                 for move in moves:
                     val = self.min_max(move, depth - 1, False, alpha, beta)
-                    best = max(best, val)
-                    alpha = max(alpha, best)
+                    best = self.MAX(best, val)
+                    alpha = max(alpha, best[0])
 
                     if beta <= alpha:
                         break
             return best
         else:
-            best = MAX
+            best = [MAX]
 
             for moves in list_of_moves:
                 for move in moves:
                     val = self.min_max(move, depth - 1, True, alpha, beta)
-                    best = min(best, val)
-                    beta = min(beta, best)
+                    best = self.MIN(best, val)
+                    beta = min(beta, best[0])
                     if beta <= alpha:
                         break
             return best
