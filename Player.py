@@ -24,37 +24,65 @@ def define_first_turn_between_players():
     Funkcija koja odredjuje prvog izmedju dva igraca
     """
     print(Colors.OKBLUE + 'Choose the first player.' + Colors.ENDC)
-    print('Type ' + Colors.OKBLUE + 'Player1' + Colors.ENDC + ' if you want Player1 to go first.')
-    print('Type ' + Colors.OKBLUE + 'Player2' + Colors.ENDC + ' if you want Player2 to go first.')
+    print('Type ' + Colors.OKBLUE + 'Me' + Colors.ENDC + ' if you want to go first.')
+    print('Type ' + Colors.OKBLUE + 'Computer' + Colors.ENDC + ' if you want Computer to go first.')
     choice = input('> ').lower()
-    if choice == 'player1':
-        return 1
-    elif choice == 'player2':
-        return 2
+    if choice == 'computer':
+        return 1, True
+    elif choice == 'me':
+        return 2, True
     else:
         print(Colors.FAIL + 'Invalid choice of first player. Try again. ' + Colors.ENDC)
         return define_first_turn_between_players()
 
+MAX, MIN = 1000, -1000
 
 def switch_turns(turn, obj, wall_obj):
     """
     Funkcija koja poziva funkcije za odigravanje partije u zavisnosti od redosleda
     """
-    match turn:
+    from Node import Node
+    match turn[0]:
         case 1:
-            print(Colors.FAIL + 'Player 1 is playing...' + Colors.ENDC)
-            wall_obj.init_wall(obj, obj.player1)
-            obj.print_game_table()
-            obj.player1.move_figure(obj)
-            obj.print_game_table()
-            return 2
+            if turn[1] is True:
+                figure = 'player1'
+                is_player_first = False
+            else:
+                figure = 'player2'
+                is_player_first = True
+
+                print(Colors.FAIL + 'Computer is playing...' + Colors.ENDC)
+                # wall_obj.init_wall(obj, obj.player1)
+                # obj.print_game_table()
+                # obj.player1.move_figure(obj)
+                node = Node()
+                bra = node.min_max(obj, 1, True, MIN, MAX, figure)
+
+                obj.table_fields = bra[1].table_fields
+                obj.player1 = bra[1].player1
+                obj.player2 = bra[1].player2
+
+                obj.print_game_table()
+            return 2, is_player_first
         case 2:
-            print(Colors.FAIL + 'Player 2 is playing...' + Colors.ENDC)
-            wall_obj.init_wall(obj, obj.player2)
+            if turn[1] is True:
+                figure = 'player1'
+                is_computer_first = False
+            else:
+                figure = 'player2'
+                is_computer_first = True
+
+            print(Colors.FAIL + 'Player is playing...' + Colors.ENDC)
+            if figure == 'player1':
+                wall_obj.init_wall(obj, obj.player1)
+                obj.print_game_table()
+                obj.player1.move_figure(obj)
+            else:
+                wall_obj.init_wall(obj, obj.player2)
+                obj.print_game_table()
+                obj.player2.move_figure(obj)
             obj.print_game_table()
-            obj.player2.move_figure(obj)
-            obj.print_game_table()
-            return 1
+            return 1, is_computer_first
 
 
 def play_turn(obj, wall_obj, first_player_choice):
