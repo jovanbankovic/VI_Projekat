@@ -1,6 +1,5 @@
 from TableFields import deep_copy_table
-from random import randrange
-
+import random
 MAX, MIN = 1000, -1000
 
 
@@ -152,9 +151,13 @@ class Node(object):
 
         return list_of_possible_states
 
-    def state_quality(self, current_state):
+    def state_quality(self, current_state, maximazing_player):
 
-        value_of_state = randrange(1001)
+        if maximazing_player is True:
+            value_of_state = random.randint(0, 1000)
+        else:
+            value_of_state = random.randint(-1000, -1)
+
         return value_of_state, current_state
 
     def MAX(self, best, val):
@@ -171,7 +174,7 @@ class Node(object):
 
     def min_max(self, matrix_state, depth, maximizing_player, alpha, beta, figure):
         if depth == 0:
-            return self.state_quality(matrix_state)
+            return self.state_quality(matrix_state, maximizing_player)
 
         list_of_moves = self.determinate_possible_state(matrix_state, figure)
 

@@ -275,7 +275,7 @@ class Figure(object):
                     if obj.table_fields[self.positionX][self.positionY+1].wallLeft["type"] == "green" or \
                             obj.table_fields[self.positionX][self.positionY+1].wallRight["type"] == "green":
                         print(Colors.WARNING + "You can't go there. Green wall is blocking you." + Colors.ENDC)
-                        self.move(x, y, obj)
+                        return -1
                     else:
                         self.positionX = x
                         self.positionY = y
@@ -283,18 +283,18 @@ class Figure(object):
                     if self.is_occupied(x, y+1, obj) == -1:
                         if obj.table_fields[self.positionX][self.positionY].wallRight["type"] == "green":
                             print(Colors.WARNING + "You can't go there. Green wall is blocking you." + Colors.ENDC)
-                            self.move(x, y, obj)
+                            return -1
                         else:
                             self.positionX = x
                             self.positionY = y
                     else:
-                        print("You cant jump 1 field.")
-                        self.move(x, y, obj)
+                        print(Colors.WARNING + "You cant jump 1 field." + Colors.ENDC)
+                        return -1
                 case "levo":
                     if obj.table_fields[self.positionX][self.positionY - 1].wallLeft["type"] == "green" or \
                             obj.table_fields[self.positionX][self.positionY - 1].wallRight["type"] == "green":
                         print(Colors.WARNING + "You can't go there. Green wall is blocking you." + Colors.ENDC)
-                        self.move(x, y, obj)
+                        return -1
                     else:
                         self.positionX = x
                         self.positionY = y
@@ -302,18 +302,18 @@ class Figure(object):
                     if self.is_occupied(x, y - 1, obj) == -1:
                         if obj.table_fields[self.positionX][self.positionY].wallLeft["type"] == "green":
                             print(Colors.WARNING + "You can't go there. Green wall is blocking you." + Colors.ENDC)
-                            self.move(x, y, obj)
+                            return -1
                         else:
                             self.positionX = x
                             self.positionY = y
                     else:
                         print(Colors.WARNING + "You can't jump one field." + Colors.ENDC)
-                        self.move(x, y, obj)
+                        return -1
                 case "gore":
                     if obj.table_fields[self.positionX-1][self.positionY].wallUp["type"] == "blue" or \
                             obj.table_fields[self.positionX-1][self.positionY].wallDown["type"] == "blue":
                         print(Colors.WARNING + "You can't go there. Blue wall is blocking you." + Colors.ENDC)
-                        self.move(x, y, obj)
+                        return -1
                     else:
                         self.positionX = x
                         self.positionY = y
@@ -321,18 +321,18 @@ class Figure(object):
                     if self.is_occupied(x-1, y, obj) == -1:
                         if obj.table_fields[self.positionX][self.positionY].wallUp["type"] == "blue":
                             print(Colors.WARNING + "You can't go there. Blue wall is blocking you." + Colors.ENDC)
-                            self.move(x, y, obj)
+                            return -1
                         else:
                             self.positionX = x
                             self.positionY = y
                     else:
                         print(Colors.WARNING + "You can't jump one field." + Colors.ENDC)
-                        self.move(x, y, obj)
+                        return -1
                 case "dole":
                     if obj.table_fields[self.positionX + 1][self.positionY].wallUp["type"] == "blue" or \
                             obj.table_fields[self.positionX + 1][self.positionY].wallDown["type"] == "blue":
                         print(Colors.WARNING + "You can't go there. Blue wall is blocking you." + Colors.ENDC)
-                        self.move(x, y, obj)
+                        return -1
                     else:
                         self.positionX = x
                         self.positionY = y
@@ -340,19 +340,20 @@ class Figure(object):
                     if self.is_occupied(x + 1, y, obj) == -1:
                         if obj.table_fields[self.positionX][self.positionY].wallDown["type"] == "blue":
                             print(Colors.WARNING + "You can't go there. Blue wall is blocking you." + Colors.ENDC)
-                            self.move(x, y, obj)
+                            return -1
                         else:
                             self.positionX = x
                             self.positionY = y
                     else:
                         print(Colors.WARNING + "You can't jump one field." + Colors.ENDC)
+                        return -1
                 case "dijagonalaGore_levo":
                     if obj.table_fields[self.positionX - 1][self.positionY - 1].wallDown["type"] == "blue" or \
                             obj.table_fields[self.positionX - 1][self.positionY - 1].wallRight["type"] == "green" or \
                                 obj.table_fields[self.positionX][self.positionY].wallLeft["type"] == "green" or \
                                     obj.table_fields[self.positionX][self.positionY].wallUp["type"] == "blue":
                         print(Colors.WARNING + "You can't go there. Wall is blocking your path." + Colors.ENDC)
-                        self.move(x, y, obj)
+                        return -1
                     else:
                         self.positionX = x
                         self.positionY = y
@@ -362,7 +363,7 @@ class Figure(object):
                             obj.table_fields[self.positionX][self.positionY].wallRight["type"] == "green" or \
                             obj.table_fields[self.positionX][self.positionY].wallUp["type"] == "blue":
                         print(Colors.WARNING + "You can't go there. Wall is blocking your path." + Colors.ENDC)
-                        self.move(x, y, obj)
+                        return -1
                     else:
                         self.positionX = x
                         self.positionY = y
@@ -372,7 +373,7 @@ class Figure(object):
                             obj.table_fields[self.positionX][self.positionY].wallRight["type"] == "green" or \
                             obj.table_fields[self.positionX][self.positionY].wallDown["type"] == "blue":
                         print(Colors.WARNING + "You can't go there. Wall is blocking your path." + Colors.ENDC)
-                        self.move(x, y, obj)
+                        return -1
                     else:
                         self.positionX = x
                         self.positionY = y
@@ -382,12 +383,15 @@ class Figure(object):
                             obj.table_fields[self.positionX][self.positionY].wallLeft["type"] == "green" or \
                             obj.table_fields[self.positionX][self.positionY].wallDown["type"] == "blue":
                         print(Colors.WARNING + "You can't go there. Wall is blocking your path." + Colors.ENDC)
-                        self.move(x, y, obj)
+                        return -1
                     else:
                         self.positionX = x
                         self.positionY = y
+                case "error":
+                    print(Colors.WARNING + "You can't go there." + Colors.ENDC)
+                    return -1
         else:
             print(Colors.WARNING + "That filed is occupied." + Colors.ENDC)
-            self.move(x, y, obj)
+            return -1
 
 

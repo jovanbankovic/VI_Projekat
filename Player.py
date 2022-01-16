@@ -51,18 +51,18 @@ def switch_turns(turn, obj, wall_obj):
                 figure = 'player2'
                 is_player_first = True
 
-                print(Colors.FAIL + 'Computer is playing...' + Colors.ENDC)
-                # wall_obj.init_wall(obj, obj.player1)
-                # obj.print_game_table()
-                # obj.player1.move_figure(obj)
-                node = Node()
-                bra = node.min_max(obj, 1, True, MIN, MAX, figure)
+            print(Colors.FAIL + 'Computer is playing...' + Colors.ENDC)
+            # wall_obj.init_wall(obj, obj.player1)
+            # obj.print_game_table()
+            # obj.player1.move_figure(obj)
+            node = Node()
+            bra = node.min_max(obj, 1, True, MIN, MAX, figure)
 
-                obj.table_fields = bra[1].table_fields
-                obj.player1 = bra[1].player1
-                obj.player2 = bra[1].player2
+            obj.table_fields = bra[1].table_fields
+            obj.player1 = bra[1].player1
+            obj.player2 = bra[1].player2
 
-                obj.print_game_table()
+            obj.print_game_table()
             return 2, is_player_first
         case 2:
             if turn[1] is True:
