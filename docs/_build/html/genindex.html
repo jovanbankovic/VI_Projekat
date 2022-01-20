@@ -74,6 +74,7 @@
  | <a href="#I"><strong>I</strong></a>
  | <a href="#K"><strong>K</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
@@ -88,6 +89,10 @@
 </div>
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Node.html#Node.Node.all_states_based_on_move">all_states_based_on_move() (Node.Node method)</a>
+</li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="TableFields.html#TableFields.TableFields.announce_winner">announce_winner() (TableFields.TableFields method)</a>
 </li>
@@ -109,6 +114,8 @@
 </li>
       <li><a href="Wall.html#Wall.Wall.check_if_there_are_paths">check_if_there_are_paths() (Wall.Wall method)</a>
 </li>
+      <li><a href="Player.html#Player.choose_singleplayer_or_multiplayer">choose_singleplayer_or_multiplayer() (in module Player)</a>
+</li>
       <li>
     Colors
 
@@ -121,8 +128,6 @@
       <li><a href="Colors.html#Colors.Colors">Colors (class in Colors)</a>
 </li>
       <li><a href="TableFields.html#TableFields.TableFields.create_game_table">create_game_table() (TableFields.TableFields method)</a>
-</li>
-      <li><a href="TableFields.html#TableFields.create_list_of_all_possible_situations">create_list_of_all_possible_situations() (in module TableFields)</a>
 </li>
       <li><a href="Player.html#Player.Player.create_player">create_player() (Player.Player method)</a>
 </li>
@@ -143,6 +148,8 @@
       <li><a href="TableFields.html#TableFields.define_starting_x_position">define_starting_x_position() (in module TableFields)</a>
 </li>
       <li><a href="TableFields.html#TableFields.define_starting_y_position">define_starting_y_position() (in module TableFields)</a>
+</li>
+      <li><a href="Node.html#Node.Node.determinate_possible_state">determinate_possible_state() (Node.Node method)</a>
 </li>
       <li><a href="Figure.html#Figure.Figure.determine_direction">determine_direction() (Figure.Figure method)</a>
 </li>
@@ -209,13 +216,15 @@
 </li>
       <li><a href="Wall.html#Wall.Wall.init_wall">init_wall() (Wall.Wall method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="TableFields.html#TableFields.input_and_validate_pre_game_params">input_and_validate_pre_game_params() (in module TableFields)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="TableFields.html#TableFields.TableFields.is_game_over">is_game_over() (TableFields.TableFields method)</a>
 </li>
       <li><a href="Figure.html#Figure.Figure.is_occupied">is_occupied() (Figure.Figure method)</a>
+</li>
+      <li><a href="Figure.html#Figure.Figure.is_valid_move_for_node">is_valid_move_for_node() (Figure.Figure method)</a>
 </li>
       <li><a href="Figure.html#Figure.Figure.isValidMove">isValidMove() (Figure.Figure method)</a>
 </li>
@@ -242,6 +251,12 @@
       </ul></li>
       <li><a href="Wall.html#Wall.Wall.make_wall">make_wall() (Wall.Wall method)</a>
 </li>
+      <li><a href="Node.html#Node.Node.MAX">MAX() (Node.Node method)</a>
+</li>
+      <li><a href="Node.html#Node.Node.MIN">MIN() (Node.Node method)</a>
+</li>
+      <li><a href="Node.html#Node.Node.min_max">min_max() (Node.Node method)</a>
+</li>
       <li>
     module
 
@@ -251,6 +266,8 @@
         <li><a href="Figure.html#module-Figure">Figure</a>
 </li>
         <li><a href="main.html#module-main">main</a>
+</li>
+        <li><a href="Node.html#module-Node">Node</a>
 </li>
         <li><a href="Player.html#module-Player">Player</a>
 </li>
@@ -264,6 +281,25 @@
       <li><a href="Figure.html#Figure.Figure.move">move() (Figure.Figure method)</a>
 </li>
       <li><a href="Player.html#Player.Player.move_figure">move_figure() (Player.Player method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Node.html#Node.Node.new_state_of_game">new_state_of_game() (Node.Node method)</a>
+</li>
+      <li>
+    Node
+
+      <ul>
+        <li><a href="Node.html#module-Node">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Node.html#Node.Node">Node (class in Node)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -337,6 +373,8 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Figure.html#Figure.Figure.startingPositionY">startingPositionY (Figure.Figure attribute)</a>
+</li>
+      <li><a href="Node.html#Node.Node.state_quality">state_quality() (Node.Node method)</a>
 </li>
       <li><a href="Player.html#Player.switch_turns">switch_turns() (in module Player)</a>
 </li>

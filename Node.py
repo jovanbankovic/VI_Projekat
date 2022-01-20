@@ -8,6 +8,17 @@ class Node(object):
         return
 
     def new_state_of_game(self, obj_param, x, y, inp, player, move, figure):
+        """
+        Funkcija koja pravi novo stanje na osnovu prosledjenih parametara
+        :param obj_param: Trenutno stanje igre
+        :param x:
+        :param y:
+        :param inp: vrsta zida
+        :param player:
+        :param move:
+        :param figure:
+        :return:
+        """
         from TableFields import deep_copy_table
         from Wall import Wall
 
@@ -96,7 +107,9 @@ class Node(object):
 
 
     def all_states_based_on_move(self, obj, move, figure):
-
+        """
+            Funkcija koja pronalazi stanja na osnovu poteza.
+        """
         list_of_states = []
         if figure == 'player1':
             player = obj.player1
@@ -120,7 +133,7 @@ class Node(object):
 
     def determinate_possible_state(self, obj, figure):
         """
-
+            Funkcija koja vraca sva moguca stanja igre.
         """
 
         list_of_possible_states = []

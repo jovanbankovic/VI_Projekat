@@ -3,9 +3,18 @@
   <component name="ChangeListManager">
     <list default="true" id="190d1593-bd0e-4272-824e-e82f102be34f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Figure.py" beforeDir="false" afterPath="$PROJECT_DIR$/Figure.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Node.py" beforeDir="false" afterPath="$PROJECT_DIR$/Node.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/Player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/Figure.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/Figure.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/Player.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/Player.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/TableFields.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/TableFields.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/Figure.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/Figure.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/Player.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/Player.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/TableFields.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/TableFields.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/genindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/genindex.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/objects.inv" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/objects.inv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/py-modindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/py-modindex.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/searchindex.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
