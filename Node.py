@@ -62,7 +62,13 @@ class Node(object):
                     else:
                         return -1
                 else:
-                    return -1
+                    if figure == 'player1':
+                        obj.player1.figure1.positionX = move[0]
+                        obj.player1.figure1.positionY = move[1]
+                    else:
+                        obj.player2.figure1.positionX = move[0]
+                        obj.player2.figure1.positionY = move[1]
+                    return obj
             elif inp == "green":
                 if player.remainingGreenWalls > 0:
                     if 0 <= x + 1 < len(obj.table_fields) and 0 <= y < len(obj.table_fields[0]):
@@ -99,7 +105,13 @@ class Node(object):
                     else:
                         return -1
                 else:
-                    return -1
+                    if figure == 'player1':
+                        obj.player1.figure1.positionX = move[0]
+                        obj.player1.figure1.positionY = move[1]
+                    else:
+                        obj.player2.figure1.positionX = move[0]
+                        obj.player2.figure1.positionY = move[1]
+                    return obj
             else:
                 return -1
         else:

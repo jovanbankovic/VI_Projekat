@@ -55,12 +55,14 @@ def switch_turns(turn, obj, wall_obj):
             # wall_obj.init_wall(obj, obj.player1)
             # obj.print_game_table()
             # obj.player1.move_figure(obj)
-            node = Node()
-            bra = node.min_max(obj, 1, True, MIN, MAX, figure)
+            depth = 1
 
-            obj.table_fields = bra[1].table_fields
-            obj.player1 = bra[1].player1
-            obj.player2 = bra[1].player2
+            node = Node()
+            new_object = node.min_max(obj, depth, True, MIN, MAX, figure)
+
+            obj.table_fields = new_object[1].table_fields
+            obj.player1 = new_object[1].player1
+            obj.player2 = new_object[1].player2
 
             obj.print_game_table()
             return 2, is_player_first

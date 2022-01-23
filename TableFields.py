@@ -8,8 +8,6 @@ from _common import matrixDimensionX, matrixDimensionY, minMatrixDimensionY, min
 from Player import Player
 from Colors import Colors
 from copy import deepcopy
-import ujson
-
 
 def input_and_validate_pre_game_params(min_value, max_value, input_message):
     """
